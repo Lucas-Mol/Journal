@@ -8,13 +8,14 @@
   <properties>
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
   
   <build>
-  	<finalName>journal</finalName>
+  	<finalName>${project.artifactId}</finalName>
   	<plugins>
   		<plugin>
   			<artifactId>maven-compiler-plugin</artifactId>
-  			<version>3.0</version>
+  			<version>3.8.0</version>
   			<configuration>
   				<source>1.8</source>
   				<target>1.8</target>
@@ -24,13 +25,45 @@
   </build>
   
   <dependencies>
+  		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope></scope>
+		</dependency>
+		
     	<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.faces</artifactId>
 			<version>2.2.10</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.29</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.6.9.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.6.9.Final</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-jpamodelgen</artifactId>
+		    <version>5.4.12.Final</version>
+		</dependency>
+		
   </dependencies>
 
-  
 </project>

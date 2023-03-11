@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="Pwh17KiYS3t1jNNCGKba" name="Page-1">
-        <mxGraphModel dx="748" dy="546" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#E3D3D8" math="0" shadow="0">
+        <mxGraphModel dx="1724" dy="792" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#E3D3D8" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -37,8 +37,8 @@
                 <mxCell id="139" value="fk_user: integer (&lt;b&gt;FK&lt;/b&gt;)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="520" y="430" width="130" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="140" value="label: integer (&lt;b&gt;FK&lt;/b&gt;)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="520" y="450" width="120" height="30" as="geometry"/>
+                <mxCell id="140" value="fk_label: integer (&lt;b&gt;FK&lt;/b&gt;)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="515" y="450" width="140" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="148" value="" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" parent="1" vertex="1">
                     <mxGeometry x="774" y="260" width="136" height="170" as="geometry"/>
@@ -67,7 +67,7 @@
                         <mxPoint x="780" y="320" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="161" value="latest_date: Date()" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="161" value="latest_date: Date()" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="520" y="410" width="120" height="30" as="geometry"/>
                 </mxCell>
             </root>
