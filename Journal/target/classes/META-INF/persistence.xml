@@ -16,9 +16,9 @@
 				value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:mysql://localhost:3306/journal_dev_202303" />
-			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.user" value="" />
 			<property name="javax.persistence.jdbc.password"
-				value="1234" />
+				value="" />
 
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.MySQL8Dialect" />
