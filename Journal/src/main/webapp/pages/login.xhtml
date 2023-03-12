@@ -3,15 +3,40 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 	
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Journal - Login</title>
+		<h:outputStylesheet library="css" name="styles.css"/>
 	</h:head>
 	
 	<h:body>
 	
-		<h:outputText value="Hello JavaServer Face" />
+		<div class="wrapper">
+			
+			<h:form id="form-login" styleClass="form-login">
+				<p:outputLabel styleClass="title" value="LOGIN" />
+				<p:outputLabel styleClass="text" value="Please enter your login and password" />
+				 
+	           	<p:inputText styleClass="field" 
+	              	id="username" type="text" placeholder="Username/Email"
+	              	value="#{loginMB.username}"  />
+
+	           	<p:inputText styleClass="field"
+	            	 id="password" type="password" placeholder="Password"
+	            	  value="#{loginMB.password}" />
+	
+	         	<p:commandButton id="btn-login" value="Login" styleClass="btn-login" action="#{loginMB.login()}"/>
+	         	
+	         	<div class="signup-footer">
+		         	<p:outputLabel styleClass="text" value="Not a member?"/>
+		         	<p:button styleClass="signup-link" value="Signup now" outcome="signup"/>
+	         	</div>
+	         	
+	      	</h:form>
+		</div>
 	
 	</h:body>
 
