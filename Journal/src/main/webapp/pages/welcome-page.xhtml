@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/templates/welcome-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:v="http://java.sun.com/jsf/composite/components">
+
+	<ui:define name="welcome-content">
+		<div class="welcome-page-grid">
+			<div class="block-one">
+				<div>
+					<h:outputText styleClass="title" value="Welcome to" />
+					<img class="full-logo" src="/resources/images/full-logo.svg" alt="Journal Logo"/>
+			 	</div>
+			</div>
+			<div class="block-two">
+				<div>
+					<img class="full-logo" src="/resources/images/welcome-book.png" alt="Book"/>
+					<h:outputText value="You can post your daily activities or use it as a Planner/To Do List" />
+			 	</div>
+			</div>
+			<div class="block-three">
+				<div>
+					<img class="full-logo" src="/resources/images/welcome-search.png" alt="Search"/>
+					<h:outputText value="You can label your posts and filter it in a search to make your life easier" />
+			 	</div>
+			</div>
+			<div class="block-four">
+				<div>
+					<img class="full-logo" src="/resources/images/welcome-fun.png" alt="Fun"/>
+					<h:outputText value="Have fun to enjoy it..."/>
+					<h:outputText value="It’s just a prototype application"/>
+			 	</div>
+			</div>
+			<div class="block-five">
+				<div>
+					<p:button styleClass="button" value="Continue" outcome="app/dashboard"/>
+			 	</div>
+			</div>
+			
+		</div>
+	</ui:define>
+</ui:composition>

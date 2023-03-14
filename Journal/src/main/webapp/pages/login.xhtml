@@ -1,20 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/templates/no-session-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Journal - Login</title>
+	<head>
 		<h:outputStylesheet library="css" name="styles.css"/>
-	</h:head>
+	</head>
 	
-	<h:body>
+	<ui:define name="no-session-content">
 	
-		<div class="wrapper">
+		<div class="login-div">
+		
+			<img class="login-logo" src="/resources/images/full-logo.svg" alt="Journal Logo" />
 			
 			<h:form id="form-login" styleClass="form-login">
 				<p:outputLabel styleClass="title" value="LOGIN" />
@@ -38,6 +39,5 @@
 	      	</h:form>
 		</div>
 	
-	</h:body>
-
+	</ui:define>
 </ui:composition>

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-@WebFilter("/pages/login.xhtml")
+@WebFilter(urlPatterns = {"/pages/login.xhtml", "/pages/signup.xhtml", "/pages/welcome-page.xhtml"})
 public class LoginAuthFilter implements Filter {
 
 

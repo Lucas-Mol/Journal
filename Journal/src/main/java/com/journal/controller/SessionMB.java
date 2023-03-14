@@ -48,7 +48,5 @@ public class SessionMB {
    public void setAttribute(String key, Object value){
 	   getCurrentExternalContext().getSessionMap().put(key, value);
    }
-   
-
 
 }
