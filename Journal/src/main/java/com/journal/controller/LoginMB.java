@@ -1,7 +1,6 @@
 package com.journal.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -9,6 +8,8 @@ import javax.faces.context.FacesContext;
 
 import com.journal.dao.UserDAO;
 import com.journal.model.User;
+import com.journal.util.GrowlUtils;
+import com.journal.util.StringUtils;
 
 @ManagedBean
 @ViewScoped
@@ -20,46 +21,63 @@ public class LoginMB {
 	
 	
 	public void login() {
-		if(username == null || password == null) {
-			return;
-		}
+		boolean validatedFields = validateFields();
 		
-		List<User> lUsers = userDAO.findByUsernameOrEmail(username);
+		if(!validatedFields) return;
+		
+		User user = userDAO.findByUsernameOrEmail(username);
 		 
 		try {
-			if(lUsers != null && !lUsers.isEmpty()) {
-				for(User user : lUsers) {
-					if((user.getUsername().equals(username) || user.getEmail().equals(username)) && user.getPassword().equals(password)) {
+			if(user != null && validateUserWithFields(user, username, password)) {
 						
-						User sessionUser = SessionMB.getInstance().getSessionUser();
+					User sessionUser = SessionMB.getInstance().getSessionUser();
 						
-						if (sessionUser != null) {
+					if (sessionUser != null) {
 							
-							if (sessionUser.getEmail().equals(user.getEmail()) 
-									&& sessionUser.getUsername().equals(user.getUsername())) {
-								FacesContext.getCurrentInstance().getExternalContext().redirect("app/dashboard.xhtml");
-							}
-							
-							SessionMB.getInstance().finishSession();
-							FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+						if (validateSessionUserWithLoggingUser(sessionUser, user)) {
+							FacesContext.getCurrentInstance().getExternalContext().redirect("app/dashboard.xhtml");
 						}
-						
-						SessionMB.getInstance().setSessionUser(user);
-						System.out.println("User logged in: User: " + user.getUsername());
-						FacesContext.getCurrentInstance().getExternalContext().redirect("app/dashboard.xhtml");
-					} else {
-						System.out.println("Username or Password is incorrect!");
-					}					
-				}
-			} else {
-				System.out.println("User not found");
+							
+						SessionMB.getInstance().finishSession();
+						FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+					}
+					
+					//Login and redirect to dashboard
+					SessionMB.getInstance().setSessionUser(user);
+					FacesContext.getCurrentInstance().getExternalContext().redirect("app/dashboard.xhtml");
+				}  else {
+				GrowlUtils.addErrorMessage("Incorrect", "Incorrect username or password!");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	private boolean validateUserWithFields(User user, String login, String password) {		
+		return (user.getUsername().equals(login) || user.getEmail().equals(login)) 
+				&& user.getPassword().equals(StringUtils.encryptPassword(password));
+	}
 	
+	private boolean validateSessionUserWithLoggingUser(User sessionUser, User loggingUser) {
+		return sessionUser.getEmail().equals(loggingUser.getEmail()) 
+				&& sessionUser.getUsername().equals(loggingUser.getUsername());
+	}
+
+	private boolean validateFields() {
+		return checkRequiredFields();
+	}
+		
+	private boolean checkRequiredFields() {
+		if(this.username == null || this.username.isEmpty()) {
+			GrowlUtils.addErrorMessage("Username", "The 'username' field is required");
+			return false;
+		}
+		if(this.password == null || this.password.isEmpty()) {
+			GrowlUtils.addErrorMessage("Password", "The 'password' field is required");
+			return false;
+		}
+		return true;
+	}
 	
 	public String getUsername() {
 		return username;
