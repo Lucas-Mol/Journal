@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.journal.model.User;
+import com.journal.util.StringUtils;
 
 public class UserDAOTest {
 
@@ -13,9 +14,9 @@ public class UserDAOTest {
 		
 		UserDAO userDAO = new UserDAO();
 		
-		User userTest = userDAO.findByUsernameOrEmail("test01").get(0);
+		User userTest = userDAO.findByUsernameOrEmail("test01");
 		
-		assertEquals("1234", userTest.getPassword());
+		assertEquals("03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4", userTest.getPassword());
 	}
 	
 	@Test
@@ -23,9 +24,62 @@ public class UserDAOTest {
 		
 		UserDAO userDAO = new UserDAO();
 		
-		User userTest = userDAO.findByUsernameOrEmail("test@test.com").get(0);
+		User userTest = userDAO.findByUsernameOrEmail("test@test.com");
 		
-		assertEquals("test01 1234", userTest.getUsername() + " " +userTest.getPassword());
+		assertEquals("test01 03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4", userTest.getUsername() + " " +userTest.getPassword());
+	}
+	
+	@Test
+	public void testValidateUsername() {
+		
+		//Username already used, must return false
+		assertFalse(StringUtils.validateUsername("test01"));
+	}
+	
+	@Test
+	public void testValidateEmail() {
+		
+		//Username already used, must return false
+		assertFalse(StringUtils.validateEmail("test@test.com"));
+	}
+	
+	@Test
+	public void testInsertNewUser() {
+		UserDAO userDAO = new UserDAO();
+		
+		User newUser = new User();
+		newUser.setUsername("insertTestUser");
+		newUser.setEmail("insert@test.com");
+		newUser.setPassword("123456");
+		
+		try {
+			userDAO.insert(newUser);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		User persistedUser = userDAO.findByUsernameOrEmail("insertTestUser");
+		
+		//Must be not null, means that it was persisted sucessfully
+		assertTrue(persistedUser != null);
+	}
+	
+	@Test
+	public void testRemoveNewUser() {
+		UserDAO userDAO = new UserDAO();
+		
+		User persistedUser = userDAO.findByUsernameOrEmail("insertTestUser");
+		int affectedLines = 0;
+		try {
+			affectedLines = userDAO.remove(persistedUser);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		User removedUser = userDAO.findByUsernameOrEmail("insertTestUser");
+		
+		//Must be null, means that it was removed sucessfully
+		assertTrue(removedUser == null && affectedLines == 1);
 	}
 
 }
