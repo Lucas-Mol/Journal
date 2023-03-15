@@ -13,12 +13,16 @@
 </h:head>
 
 <h:body styleClass="no-session-background">
-	<ui:insert name="header"/>
+	<p:growl id="growl" showDetail="true" sticky="false">
+		<p:autoUpdate/>
+	</p:growl>
 	
 	<div class="no-session-wrapper">
 		<main> 
 			<ui:insert name="no-session-content"/>
 		</main>
+	</div>
+	<div class="login-fill-background">
 	</div>
 </h:body>
 
