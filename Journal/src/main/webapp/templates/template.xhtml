@@ -13,11 +13,15 @@
 </h:head>
 
 <h:body styleClass="app-main-background">
+	<p:growl id="growl" showDetail="true" sticky="false">
+		<p:autoUpdate/>
+	</p:growl>
+	
 	<ui:insert name="header"/>
 	
 	<div class="app-wrapper-background">
 		<main> 
-			<ui:insert name="conteudo"/>
+			<ui:insert name="content"/>
 		</main>
 	</div>
 </h:body>

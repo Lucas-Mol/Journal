@@ -4,10 +4,28 @@
 
 .no-session-background {
 	background-image: url('/resources/images/main-background.svg');
-    background-size: 200vw; 
+    background-size: 2560px; 
   	background-position: center center; 
   	background-repeat: no-repeat;
   	margin: 0;
+}
+
+.no-session-background .login-fill-background {
+	position: absolute;
+	top:0;
+	bottom:0;
+	right: 0;
+	left: calc(1440px + (100% - 1440px)/2);
+	background-color: #171D29;
+}
+
+.no-session-background .signup-fill-background {
+	position: absolute;
+	top:0;
+	bottom:0;
+	left: 0;
+	right: calc(1440px + (100% - 1440px)/2);
+	background-color: #171D29;
 }
 
 .app-main-background {
@@ -22,16 +40,13 @@
   	min-height: 100vh;
 	border-width: 0px 0.1px;
 	border-style: solid;
-	border-color: #FFFFFF;
+	border-color: #353535;
 }
 
 .no-session-wrapper {
 	margin: 0 auto 0 auto;
 	max-width: 1440px;
   	min-height: 100vh;
-	border-width: 0px 0.1px;
-	border-style: solid;
-	border-color: #FFFFFF;
 }
 
 .no-session-wrapper .login-logo {
@@ -43,64 +58,114 @@
 	height: 350.5px
 }
 
-.no-session-wrapper .login-div {
+.no-session-wrapper .login-signup-section {
     display: flex;
     justify-content: flex-end;
 }
 
-.form-login {
-	min-height: 100vh;
+.no-session-wrapper .login-signup-section .login-signup-div {
+	align-items: center;
+	display: flex;
+    justify-content: center;
+    
+    min-height: 100vh;
 	width:60%;
 	margin-right: 0;
-    text-align: left;
     background-color: #171D29;
 }
 
 .form-login * {
-	display: block;
+	display: flex;
 	justify-content: center;
 }
 
 .form-login .title {
-	font-size: 45px;
-	font-weight: 600;
-	text-align: center;
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 64px;
+	line-height: 87px;
 	
-	background-image: -webkit-linear-gradient(left,#5e99e0 0%,#d8e0f0 80%);
-    background-size: 100%;
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    -webkit-text-fill-color: transparent; 
-    -moz-text-fill-color: transparent;
+	background: linear-gradient(95.54deg, rgba(172, 187, 200, 0.4) 57.53%, rgba(30, 154, 255, 0.4) 110.48%), rgba(30, 154, 255, 0.71);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	text-fill-color: transparent;
+	
+	margin-bottom: 50px;
 }
 
 .form-login .text {
-	font-size: 15px;
-	font-weight: 300;
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
 	text-align: center;
-	margin: 20px 0 30px 0;
+	color: #818181;
+	margin-bottom: 20px;
 }
 
-.form-login .field {
-    margin: 15px auto 15px auto;
-	height: 40px;
-	text-align: center;
-	border-radius: 20px;
+.form-login .field, .form-login .password-div .field {
+	display: flex;
+	flex-direction: column;
+    margin: 20px auto;
+	height: 60px;
+	width: 300px;
+	border: 2px solid #818181;
+	border-radius: 50px;
 	background-color: #00000070;
-	color: #FFFFFF;
+	
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	text-align: center;
+	color: #818181;
 }
 
-.form-login .btn-login {
+.form-login .password-div {
+	display: flex;
+	flex-direction: column;
+	margin: 20px auto;
+	height: 60px;
+	width: 300px;
+}
+
+.form-login .password-div .ui-password .ui-password-icon {
+	right: 5%;
+}
+
+#info-tooltip {
+	height: 30px;
+	width: 30px;
+}
+
+.form-login .btn-login-signup {
 	display: block;
-	margin: 20px auto 0 auto;
-	height: 40px;
-	border-radius: 20px;
-	background-color: #00000070;
-	color: #CCCCCC;
+	margin: 50px auto 0 auto;
+	height: 60px;
+	width: 110px;
+	border-radius: 50px;
+	background-color: #1E9AFF;
+	color: #E2E2E2;
+	
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	text-align: center;
+	color: #E2E2E2;
+}
+
+.form-login .btn-login:hover {
+	animation: btn-jump 1s infinite;
 }
 
 .signup-footer {
-	margin: 30px auto 0 auto;
+	display: flex;
+	flex-direction: column;
+	margin: 60px auto 0 auto;
+	bottom: 0;
 }
 
 .signup-footer .text {
@@ -200,11 +265,30 @@
 	font-size: 25px;
 	text-align: center;
 
-	color: #8E7171;
+	color: #818181;
 	
 	padding: 25px 10px 50px 10px;
 	border-radius: 20px;
 	box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.welcome-page-grid div:nth-child(n+2):nth-child(-n+4):hover {
+	animation: div-dance 0.3s;
+}
+
+@keyframes div-dance {
+	0% {
+	    transform: translateX(0);
+  	}
+	25% {
+	  transform: translateX(-2px);
+	}
+	50% {
+	  transform: translateX(0);
+	}
+	75% {
+	  transform: translateX(-2px);
+	}
 }
 
 .welcome-page-grid div:nth-child(n+2):nth-child(-n+4) img {
@@ -235,7 +319,7 @@
 }
 
 .welcome-page-grid .block-five .button:hover {
-	animation: btn-jump 1s;
+	animation: btn-jump 1s infinite;
 }
 
 @keyframes btn-jump {
@@ -251,4 +335,18 @@
 	75% {
 	  transform: translateY(-2px);
 	}
+}
+
+.ui-growl-item-container {
+	background-color: #2C3B4E;
+}
+
+.ui-growl-item {
+	background-color: #2C3B4E;
+}
+
+.ui-growl-message {
+	font-family: 'Nunito';
+	font-style: normal;
+	color: #FFFFFF;
 }

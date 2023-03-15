@@ -1,42 +1,42 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<ui:composition template="/templates/no-session-template.xhtml"
+<ui:composition template="/templates/login-template.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<head>
-		<h:outputStylesheet library="css" name="styles.css"/>
-	</head>
-	
 	<ui:define name="no-session-content">
 	
-		<div class="login-div">
+		<div class="login-signup-section">
 		
 			<img class="login-logo" src="/resources/images/full-logo.svg" alt="Journal Logo" />
 			
-			<h:form id="form-login" styleClass="form-login">
-				<p:outputLabel styleClass="title" value="LOGIN" />
-				<p:outputLabel styleClass="text" value="Please enter your login and password" />
-				 
-	           	<p:inputText styleClass="field" 
-	              	id="username" type="text" placeholder="Username/Email"
-	              	value="#{loginMB.username}"  />
-
-	           	<p:inputText styleClass="field"
-	            	 id="password" type="password" placeholder="Password"
-	            	  value="#{loginMB.password}" />
-	
-	         	<p:commandButton id="btn-login" value="Login" styleClass="btn-login" action="#{loginMB.login()}"/>
-	         	
-	         	<div class="signup-footer">
-		         	<p:outputLabel styleClass="text" value="Not a member?"/>
-		         	<p:button styleClass="signup-link" value="Signup now" outcome="signup"/>
-	         	</div>
-	         	
-	      	</h:form>
+			<div class="login-signup-div">
+				<h:form id="form-login" styleClass="form-login">
+					<p:outputLabel styleClass="title" value="LOGIN" />
+					<p:outputLabel styleClass="text" value="Please enter your login and password" />
+					 
+		           	<p:inputText styleClass="field" 
+		              	id="username" type="text" placeholder="Username/Email"
+		              	value="#{loginMB.username}"  />
+					
+					<div class="password-div">
+			           	<p:password styleClass="field"
+			            	 id="password" toggleMask="true" placeholder="Password"
+			            	  value="#{loginMB.password}" />
+					</div>
+		
+		         	<p:commandButton id="btn-login" value="Login" styleClass="btn-login-signup" action="#{loginMB.login()}"/>
+		         	
+				    <div class="signup-footer">
+					  	<p:outputLabel styleClass="text" value="Not a member?"/>
+					  	<p:button styleClass="signup-link" value="Signup now" outcome="signup"/>
+				   	</div>
+				   	
+		      	</h:form>
+			</div>
 		</div>
 	
 	</ui:define>
