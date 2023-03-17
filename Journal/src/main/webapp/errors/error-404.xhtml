@@ -1,0 +1,19 @@
+<ui:composition template="/templates/error-template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+		
+	<ui:define name="content">
+	
+		<div class="error-section">
+			<img class="error__logo" src="/resources/images/full-logo.svg" alt="Journal Logo" />
+			
+			<h:outputText styleClass="error__oops-text" value="Oops..." />
+			<h:outputText styleClass="error__error-code" value="Error 404" />
+			<h:outputText styleClass="error__error-description" value="Page not found" />
+		</div>
+
+	</ui:define>
+</ui:composition>
