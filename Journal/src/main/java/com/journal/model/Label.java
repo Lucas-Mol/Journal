@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.journal.enumeration.LabelColorEnum;
+import com.journal.enumeration.ColorEnum;
 
 
 @Entity
@@ -40,8 +40,8 @@ public class Label {
 		this.name = name;
 	}
 	
-	public LabelColorEnum getColor() {
-		return LabelColorEnum.getStatusIntimacaoById(color);
+	public ColorEnum getColor() {
+		return ColorEnum.getStatusIntimacaoById(color);
 	}
 	
 	public void setColor(int color) {
