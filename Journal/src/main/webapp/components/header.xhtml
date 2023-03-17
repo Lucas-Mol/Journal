@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/templates/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="header">
+		<div class="header-background">
+			<div class="header-wrapper">
+				<div class="header-left-side">
+					<img class="header-logo" src="/resources/images/min-logo.svg" alt="Journal Logo" />
+					<div class="header-btn-div">
+						<h:link styleClass="header-btn" outcome="/pages/app/dashboard">
+							<h:outputText styleClass="header-btn-inital-text" value="D"/>
+							<h:outputText styleClass="header-btn-text" value="ashboad"/>
+						</h:link>
+					</div>
+				</div>
+				<p:outputPanel class="header-right-side" rendered="#{headerMB.user != null}">
+					<div class="header-username-text">
+						<h:outputText styleClass="header-username-text" value="#{headerMB.user.username}"/>
+					</div>
+					<h:link styleClass="header-user-link" outcome="/pages/app/dashboard">
+						<div style="background-color: #{headerMB.randomizeHexColor()}" class="header-user-circle">
+							<h:outputText styleClass="header-user-circle-text" value="#{headerMB.usernameInitials}"/>
+						</div>
+					</h:link>
+				</p:outputPanel>
+			</div>
+		</div>
+		
+	
+	</ui:define>
+</ui:composition>
