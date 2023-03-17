@@ -17,13 +17,15 @@
 		<p:autoUpdate/>
 	</p:growl>
 	
-	<ui:insert name="header"/>
-	
-	<div class="app-wrapper-background">
-		<main> 
-			<ui:insert name="content"/>
-		</main>
-	</div>
+	<ui:insert name="header">
+		<ui:include src="../components/header.xhtml" />
+
+		<div class="app-wrapper-background">
+			<main> 
+				<ui:insert name="content"/>
+			</main>
+		</div>
+	</ui:insert>
 </h:body>
 
 </html>
