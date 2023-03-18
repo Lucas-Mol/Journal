@@ -1,5 +1,9 @@
 package com.journal.controller;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -12,6 +16,9 @@ import com.journal.model.User;
 public class SessionMB {
 	
 	private static SessionMB instance;
+	
+	private static int numPasswordResetAttempt = 0;
+	public static final int MAX_ATTEMPT_PASS_RESET_TO_ERROR = 15;
 	
     public static SessionMB getInstance(){
         if (instance == null){
@@ -28,6 +35,18 @@ public class SessionMB {
             return FacesContext.getCurrentInstance().getExternalContext();
         }
    }
+    
+	public static void cleanAttempts() {
+		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		
+		Runnable attemptCleaner = () -> {
+			SessionMB.setNumPasswordResetAttempt(0);
+			System.out.println("Attempt cleaned");
+		};
+		
+		scheduler.schedule(attemptCleaner, 1, TimeUnit.MINUTES);	
+		scheduler.shutdown();
+	}
     
    public User getSessionUser(){
         return (User) getAttribute("sessionUser");
@@ -48,5 +67,14 @@ public class SessionMB {
    public void setAttribute(String key, Object value){
 	   getCurrentExternalContext().getSessionMap().put(key, value);
    }
+
+	public static int getNumPasswordResetAttempt() {
+		return numPasswordResetAttempt;
+	}
+	
+	public static void setNumPasswordResetAttempt(int numPasswordResetAttempt) {
+		SessionMB.numPasswordResetAttempt = numPasswordResetAttempt;
+	}
+  
 
 }

@@ -2,6 +2,7 @@ package com.journal.controller;
 
 import java.io.IOException;
 
+import javax.faces.application.ViewExpiredException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -22,6 +23,10 @@ public class LoginMB {
 	private UserDAO userDAO = new UserDAO();
 	
 	public void init() {
+		
+		if(SessionMB.getNumPasswordResetAttempt() >= SessionMB.MAX_ATTEMPT_PASS_RESET_TO_ERROR) {
+			throw new ViewExpiredException();
+		}
 		formForgotPasswordBB = new FormForgotPasswordBB(username);
 	}
 	
