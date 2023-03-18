@@ -54,12 +54,13 @@ public class SignupMB {
 			SessionMB.getInstance().setSessionUser(loggedUser);
 		} catch (Exception e) {
 			e.printStackTrace();
-			GrowlUtils.addErrorMessage("Sorry", "You had a login problem after sign up. Please try to login through Login Page");
+			GrowlUtils.addErrorMessage("Sorry", "We have a login problem after sign up. Please try to login through Login Page");
 		}
 		
-		
+		//TODO: get the ServletContext to point image on email properly. Not a good practice
 		ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 		
+		//Send email async
 		ExecutorService asyncExe = Executors.newSingleThreadExecutor();
 		asyncExe.submit(() -> {
 	    	MailService.sendSignupEmail(newUser, context);

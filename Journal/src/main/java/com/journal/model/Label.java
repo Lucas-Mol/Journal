@@ -1,5 +1,7 @@
 package com.journal.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,8 @@ import com.journal.enumeration.ColorEnum;
 
 @Entity
 @Table(name = "tb_label")
-public class Label {
+public class Label implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
