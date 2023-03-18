@@ -109,15 +109,15 @@
 	margin-bottom: 20px;
 }
 
-.form-login .field, .form-login .password-div .field {
+.field-div .field {
 	display: flex;
 	flex-direction: column;
-    margin: 20px auto;
 	height: 60px;
 	width: 300px;
 	border: 2px solid #818181;
 	border-radius: 50px;
 	background-color: #00000070;
+	
 	
 	font-family: 'Nunito';
 	font-style: normal;
@@ -127,12 +127,20 @@
 	color: #818181;
 }
 
-.form-login .password-div {
+.form-login .field-div {
 	display: flex;
 	flex-direction: column;
-	margin: 20px auto;
-	height: 60px;
+	margin: 15px auto;
 	width: 300px;
+}
+
+.field-div .btn-forgot-password, .field-div .btn-forgot-password:hover, field-div .btn-forgot-password:focus, field-div .btn-forgot-password:active {
+	display: flex;
+	margin-left: auto;
+	background: none;
+  	border: none;
+  	color: #1E9AFF;
+  	cursor: pointer;
 }
 
 .form-login .password-div .ui-password .ui-password-icon {
@@ -144,9 +152,9 @@
 	width: 30px;
 }
 
-.form-login .btn-login-signup {
+.form-login .btn-login-signup, .modal-section .btn-login-signup {
 	display: block;
-	margin: 50px auto 0 auto;
+	margin: 30px auto 0 auto;
 	height: 60px;
 	width: 110px;
 	border-radius: 50px;
@@ -222,6 +230,7 @@
     grid-row: 2;
     grid-column: 1;
     margin-left: 20%;
+    color: #343030;
 }
 
 .block-three {
@@ -229,6 +238,7 @@
     grid-row: 2;
     grid-column: 2;
 	margin: 0px 10%;
+	color: #bbbbbb;
 }
 
 .block-four {
@@ -236,6 +246,7 @@
     grid-row: 2;
     grid-column: 3;
 	margin-right: 20%;
+	color: #dfdddd;
 }
     
 .block-five {
@@ -268,8 +279,6 @@
 	font-weight: 400;
 	font-size: 25px;
 	text-align: center;
-
-	color: #818181;
 	
 	padding: 25px 10px 50px 10px;
 	border-radius: 20px;
@@ -556,4 +565,46 @@
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
 	text-fill-color: transparent;
+}
+
+body .ui-dialog .ui-dialog-titlebar, body .ui-dialog .ui-dialog-content {
+	background-color: #171D29;
+	
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	text-align: center;
+	color: #818181;
+}
+
+body .ui-dialog .ui-dialog-titlebar {
+	font-weight: 900;
+	font-size: 30px;
+	text-align: left;
+	color: #C1C1C1;
+}
+
+.modal-section {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+}
+
+.modal-section .field {
+	margin: 25px auto 0 auto;
+	
+	height: 60px;
+	width: 300px;
+	border: 2px solid #818181;
+	border-radius: 50px;
+	background-color: #00000070;
+	
+	
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 20px;
+	text-align: center;
+	color: #818181;
 }

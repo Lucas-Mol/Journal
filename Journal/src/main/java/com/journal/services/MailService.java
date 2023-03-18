@@ -61,7 +61,7 @@ public class MailService {
 				"<h1 style='display: flex; justify-content: center; color: #1E9AFF'>Welcome to Journal</h1>" + 
 				"<img style='display: flex; justify-content: center;' src=\"cid:logo-img\">" +
 				"<br style='display: flex; justify-content: center;'/>" +
-				"<p style='display: flex; justify-content: center;'>Hello, " + user.getUsername() + "! Welcome to Journal. This website is a Web Development Project made by Lucas Mol.</p>" +
+				"<p style='display: flex; justify-content: center;'>Hi, " + user.getUsername() + "! Welcome to Journal. This website is a Web Development Project made by Lucas Mol.</p>" +
 				"<br style='display: flex; justify-content: center;'/>" +
 				"<p style='display: flex; justify-content: center;'>This project aims to increase my technical skills in Web Development using several Java APIs, from the Basics to the Enterprise environment.</p>" +
 				"<br style='display: flex; justify-content: center;'/>" +
@@ -95,6 +95,54 @@ public class MailService {
 			e.printStackTrace();
 			return false;
 		}	
+	}
+	
+	public static boolean sendForgotPasswordEmail(User user, String newPassword) {
+		return sendForgotPasswordEmail(user, newPassword, null);
+	}
+
+	public static boolean sendForgotPasswordEmail(User user, String newPassword, ServletContext context) {
+		MimeMultipart multipart = new MimeMultipart();
+		String htmlBody = 	
+				"<h1 style='display: flex; justify-content: center; color: #1E9AFF'>Journal - Reset Password</h1>" + 
+				"<img style='display: flex; justify-content: center;' src=\"cid:logo-img\">" +
+				"<br style='display: flex; justify-content: center;'/>" +
+				"<p style='display: flex; justify-content: center;'>Hi, " + user.getUsername() + "!</p>" +
+				"<br style='display: flex; justify-content: center;'/>" +
+				"<p style='display: flex; justify-content: center;'>We're sending you this email because you requested a password reset.</p>" +
+				"<p style='display: flex; justify-content: center;'><strong>New Password:</strong>" + newPassword + "</p>" +
+				"<br style='display: flex; justify-content: center;'/>" +
+				"<p style='display: flex; justify-content: center;'>If you didn't request any password reset, contact the System Admistrator</p>" +
+				"<img style='display: flex; justify-content: center;' src=\"cid:fun-img\">" +
+				"<br style='display: flex; justify-content: center;'/>" +
+				"<a style='display: flex; justify-content: center;' href=\"mailto:"+ Constants.PROFESSINAL_MAIL +"\">"+ Constants.PROFESSINAL_MAIL +"</a>";
+		try {
+			//TODO not a good practice
+			String logoPath = (context != null)? context.getRealPath("/resources/images/full-logo.png") : "src/main/webapp/resources/images/full-logo.png";
+			MimeBodyPart logoPart = new MimeBodyPart();
+			logoPart.attachFile(new File(logoPath));
+			logoPart.setContentID("<logo-img>");
+			
+			//TODO not a good practice
+			String funPath = (context != null)? context.getRealPath("/resources/images/welcome-fun.png") : "src/main/webapp/resources/images/welcome-fun.png";
+			MimeBodyPart funPart = new MimeBodyPart();
+			funPart.attachFile(new File(funPath));
+			funPart.setContentID("<fun-img>");
+			
+			MimeBodyPart htmlPart = new MimeBodyPart();
+			htmlPart.setContent(htmlBody, "text/html");
+
+			multipart.addBodyPart(htmlPart);
+			multipart.addBodyPart(logoPart);
+			multipart.addBodyPart(funPart);
+			
+			sendEmail(user.getEmail(), "Journal - Reset Password", multipart);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 	
 }

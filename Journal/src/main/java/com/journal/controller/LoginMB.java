@@ -15,10 +15,15 @@ import com.journal.util.PasswordUtils;
 @ViewScoped
 public class LoginMB {
 	
+	private FormForgotPasswordBB formForgotPasswordBB;
+	
 	private String username;
 	private String password;
-	private UserDAO userDAO = new UserDAO();	
+	private UserDAO userDAO = new UserDAO();
 	
+	public void init() {
+		formForgotPasswordBB = new FormForgotPasswordBB(username);
+	}
 	
 	public void login() {
 		boolean validatedFields = validateFields();
@@ -79,6 +84,10 @@ public class LoginMB {
 		return true;
 	}
 	
+	public void updateUsernameFormForgotPasswordBB() {
+		formForgotPasswordBB.setLogin(username);
+	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -91,5 +100,15 @@ public class LoginMB {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public FormForgotPasswordBB getFormForgotPasswordBB() {
+		return formForgotPasswordBB;
+	}
+
+	public void setFormForgotPasswordBB(FormForgotPasswordBB formForgotPasswordBB) {
+		this.formForgotPasswordBB = formForgotPasswordBB;
+	}
+	
+	
 	
 }

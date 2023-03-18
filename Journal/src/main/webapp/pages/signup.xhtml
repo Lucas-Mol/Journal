@@ -15,36 +15,44 @@
 				<h:form id="form-login" styleClass="form-login">
 					<p:outputLabel styleClass="title" value="SIGN UP" />
 					<p:outputLabel styleClass="text" value="Please enter the following fields to sign up." />
-					 
-		           	<p:inputText styleClass="field" 
-		              	id="username" type="text" placeholder="Username" 
-		              	value="#{signupMB.username}"  />
-	
-		           	<p:inputText styleClass="field"
-		            	 id="email" type="text" placeholder="Email"
-		            	  value="#{signupMB.email}" />
-		            
-		            <div class="password-div">
-			            <p:password styleClass="field"
-			            	 id="password" toggleMask="true" placeholder="Password"
-			            	  value="#{signupMB.password}" />
-			            	   
-	    				<p:tooltip for="password" trackMouse="true">
-	    					<h:outputText value="Your password must have:"/>
-						    <br/>
-						    <ul>
-						    	<li><h:outputText value="More than 8 character"/></li>
-						    	<li><h:outputText value="Less than 20 character"/></li>
-						    	<li><h:outputText value="Contains at least one character, number and symbol\[#_!@%$\]"/></li>
-						    </ul> 
-						</p:tooltip>  
-		            </div>	  
-		            
-		            <div class="password-div">  
-			           	<p:password styleClass="field"
-			            	 id="confirmPassword" toggleMask="true" placeholder="Confirm Password"
-			            	  value="#{signupMB.confirmPassword}" />
+					
+					<div class="field-div">
+			           	<p:inputText styleClass="field" 
+			              	id="username" type="text" placeholder="Username" 
+			              	value="#{signupMB.username}"  />
 					</div>
+					<div class="field-div">
+			           	<p:inputText styleClass="field"
+			            	 id="email" type="text" placeholder="Email"
+			            	  value="#{signupMB.email}" />
+					</div>
+			          
+			       	<div class="field-div">
+			            <div class="password-div">
+				            <p:password styleClass="field"
+				            	 id="password" toggleMask="true" placeholder="Password"
+				            	  value="#{signupMB.password}" />
+				            	   
+		    				<p:tooltip for="password" trackMouse="true">
+		    					<h:outputText value="Your password must have:"/>
+							    <br/>
+							    <ul>
+							    	<li><h:outputText value="More than 8 character"/></li>
+							    	<li><h:outputText value="Less than 20 character"/></li>
+							    	<li><h:outputText value="Contains at least one character, number and symbol\[#_!@%$\]"/></li>
+							    </ul> 
+							</p:tooltip>  
+			            </div>	  
+			       	</div>  
+			         
+			         <div class="field-div">
+			            <div class="password-div">  
+				           	<p:password styleClass="field"
+				            	 id="confirmPassword" toggleMask="true" placeholder="Confirm Password"
+				            	  value="#{signupMB.confirmPassword}" />
+						</div>
+			         </div>  
+					
 					
 		         	<p:commandButton id="btn-login" value="Sign up" styleClass="btn-login-signup" action="#{signupMB.singup()}"/>
 				   	

@@ -7,6 +7,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 	
+	<f:metadata>
+		<f:viewAction action="#{loginMB.init()}" />
+	</f:metadata>
+	
 	<ui:define name="no-session-content">
 	
 		<div class="login-signup-section">
@@ -18,17 +22,26 @@
 					<p:outputLabel styleClass="title" value="LOGIN" />
 					<p:outputLabel styleClass="text" value="Please enter your login and password" />
 					 
-		           	<p:inputText styleClass="field" 
-		              	id="username" type="text" placeholder="Username/Email"
-		              	value="#{loginMB.username}"  />
+					<div class="field-div">
+			           	<p:inputText styleClass="field" 
+			              	id="username" type="text" placeholder="Username/Email"
+			              	value="#{loginMB.username}" >
+			              	<p:ajax event="change" update="@this" />
+			           	</p:inputText>
+					</div>
 					
-					<div class="password-div">
+					<div class="field-div password-div">
 			           	<p:password styleClass="field"
 			            	 id="password" toggleMask="true" placeholder="Password"
 			            	  value="#{loginMB.password}" />
+						<p:commandButton styleClass="btn-forgot-password" value="Forgot Password?">
+							<p:ajax event="click" listener="#{loginMB.updateUsernameFormForgotPasswordBB()}"
+								update="ForgotPasswordDlg" oncomplete="PF('ForgotPasswordDlg').show();"/>
+						</p:commandButton>
 					</div>
-		
-		         	<p:commandButton id="btn-login" value="Login" styleClass="btn-login-signup" action="#{loginMB.login()}"/>
+		 
+		         	<p:commandButton id="btn-login" value="Login" styleClass="btn-login-signup" 
+		         		action="#{loginMB.login()}"/>
 		         	
 				    <div class="signup-footer">
 					  	<p:outputLabel styleClass="text" value="Not a member?"/>
@@ -38,6 +51,18 @@
 		      	</h:form>
 			</div>
 		</div>
-	
+		
+		<div id="forgotPasswordDiv">
+			<p:dialog widgetVar="ForgotPasswordDlg"
+						id="ForgotPasswordDlg" styleClass="modal"
+						header="Forgot Password" modal="true"
+						resizable="false" draggable="true" closable="true">
+				<ui:include id="ForgotPasswordInclude" src="../components/forgot-password.xhtml">
+					<ui:param name="formForgotPassword" 
+								value="#{loginMB.formForgotPasswordBB}" />
+				</ui:include>
+			</p:dialog>
+		</div>
+		
 	</ui:define>
 </ui:composition>

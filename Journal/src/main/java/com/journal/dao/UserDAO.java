@@ -69,6 +69,18 @@ public class UserDAO {
 		return user;
 	}
 	
+	public User edit(User user) {
+		manager = ConnectionFactory.getEntityManager();
+		EntityTransaction transaction = manager.getTransaction();
+				
+		transaction.begin();
+		manager.merge(user);
+		transaction.commit();
+		
+		manager.close();
+		return user;
+	}
+	
 	public int remove(User user) {
 		manager = ConnectionFactory.getEntityManager();
 		manager.getTransaction().begin();
