@@ -12,6 +12,8 @@ public class Constants {
     public static final String MAIL_TO_TEST;
     public static final String PROFESSINAL_MAIL;
     
+    public static final int MAX_ATTEMPT_PASS_RESET_TO_ERROR = 15;
+    
     static {
         Properties properties = new Properties();
         try (InputStream inputStream = Constants.class.getClassLoader().getResourceAsStream(PROP_CONFIG_PATH)) {

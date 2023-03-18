@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 
 import com.journal.dao.UserDAO;
 import com.journal.model.User;
+import com.journal.util.Constants;
 import com.journal.util.GrowlUtils;
 import com.journal.util.PasswordUtils;
 
@@ -21,13 +22,14 @@ public class LoginMB {
 	private String username;
 	private String password;
 	private UserDAO userDAO = new UserDAO();
+	private SessionMB session = SessionMB.getInstance();
 	
 	public void init() {
 		
-		if(SessionMB.getNumPasswordResetAttempt() >= SessionMB.MAX_ATTEMPT_PASS_RESET_TO_ERROR) {
+		if(session.getNumPasswordResetAttempt() >= Constants.MAX_ATTEMPT_PASS_RESET_TO_ERROR) {
 			throw new ViewExpiredException();
 		}
-		formForgotPasswordBB = new FormForgotPasswordBB(username);
+		formForgotPasswordBB = new FormForgotPasswordBB(username, session);
 	}
 	
 	public void login() {
@@ -40,7 +42,7 @@ public class LoginMB {
 		try {
 			if(user != null && validateUserWithFields(user, username, password)) {
 						
-					User sessionUser = SessionMB.getInstance().getSessionUser();
+					User sessionUser = session.getSessionUser();
 						
 					if (sessionUser != null) {
 							
@@ -48,12 +50,12 @@ public class LoginMB {
 							FacesContext.getCurrentInstance().getExternalContext().redirect("app/dashboard.xhtml");
 						}
 							
-						SessionMB.getInstance().finishSession();
+						session.finishSession();
 						FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
 					}
 					
 					//Login and redirect to dashboard
-					SessionMB.getInstance().setSessionUser(user);
+					session.setSessionUser(user);
 					FacesContext.getCurrentInstance().getExternalContext().redirect("app/dashboard.xhtml");
 				}  else {
 				GrowlUtils.addErrorMessage("Incorrect", "Incorrect username or password!");

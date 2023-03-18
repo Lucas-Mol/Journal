@@ -17,14 +17,13 @@ public class SessionMB {
 	
 	private static SessionMB instance;
 	
-	private static int numPasswordResetAttempt = 0;
-	public static final int MAX_ATTEMPT_PASS_RESET_TO_ERROR = 15;
+	private final int startPasswordResetAttempt = 0;
 	
     public static SessionMB getInstance(){
         if (instance == null){
             instance = new SessionMB();
         }
-         
+        
         return instance;
    }
     
@@ -36,16 +35,22 @@ public class SessionMB {
         }
    }
     
-	public static void cleanAttempts() {
+	public void cleanAttempts() {
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		
+		ExternalContext context = this.getCurrentExternalContext();
+		
 		Runnable attemptCleaner = () -> {
-			SessionMB.setNumPasswordResetAttempt(0);
-			System.out.println("Attempt cleaned");
+			try {
+				context.getSessionMap().put("numPasswordResetAttempt", 0);
+				System.out.println("Attempt cleaned");
+				scheduler.shutdown();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		};
 		
 		scheduler.schedule(attemptCleaner, 1, TimeUnit.MINUTES);	
-		scheduler.shutdown();
 	}
     
    public User getSessionUser(){
@@ -68,12 +73,14 @@ public class SessionMB {
 	   getCurrentExternalContext().getSessionMap().put(key, value);
    }
 
-	public static int getNumPasswordResetAttempt() {
-		return numPasswordResetAttempt;
+	public int getNumPasswordResetAttempt() {
+		return (getAttribute("numPasswordResetAttempt") != null) ? 
+				(Integer) getAttribute("numPasswordResetAttempt")
+				: startPasswordResetAttempt;
 	}
 	
-	public static void setNumPasswordResetAttempt(int numPasswordResetAttempt) {
-		SessionMB.numPasswordResetAttempt = numPasswordResetAttempt;
+	public void setNumPasswordResetAttempt(int numPasswordResetAttempt) {
+		setAttribute("numPasswordResetAttempt", numPasswordResetAttempt);
 	}
   
 
