@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import com.journal.dao.UserDAO;
 import com.journal.model.User;
 import com.journal.util.GrowlUtils;
-import com.journal.util.StringUtils;
+import com.journal.util.PasswordUtils;
 
 @ManagedBean
 @ViewScoped
@@ -55,7 +55,7 @@ public class LoginMB {
 	
 	private boolean validateUserWithFields(User user, String login, String password) {		
 		return (user.getUsername().equals(login) || user.getEmail().equals(login)) 
-				&& user.getPassword().equals(StringUtils.encryptPassword(password));
+				&& user.getPassword().equals(PasswordUtils.encryptPassword(password));
 	}
 	
 	private boolean validateSessionUserWithLoggingUser(User sessionUser, User loggingUser) {

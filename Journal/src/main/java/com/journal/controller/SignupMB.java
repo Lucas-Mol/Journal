@@ -12,6 +12,7 @@ import com.journal.dao.UserDAO;
 import com.journal.model.User;
 import com.journal.services.MailService;
 import com.journal.util.GrowlUtils;
+import com.journal.util.PasswordUtils;
 import com.journal.util.StringUtils;
 
 @ManagedBean
@@ -29,7 +30,7 @@ public class SignupMB {
 		
 		if(!validatedFields) return;
 		
-		String encryptedPassword = StringUtils.encryptPassword(password);
+		String encryptedPassword = PasswordUtils.encryptPassword(password);
 		
 		if(encryptedPassword == null || encryptedPassword == "") {
 			GrowlUtils.addErrorMessage("Failed", "Something went wrong. Please contact the System Administrator.");
@@ -94,10 +95,10 @@ public class SignupMB {
 	}
  	
 	private boolean checkContent() {
-		boolean isAllowedUsername = StringUtils.validateUsername(username);
-		boolean isAllowedEmail = StringUtils.validateEmail(email);
-		boolean isEqualPasswords = StringUtils.isEqualPasswords(password, confirmPassword);
-		boolean isAllowedPassword = StringUtils.validatePassword(password);
+		boolean isAllowedUsername = !userDAO.existUsername(username.trim()); //if it DOES exist then username's not allowed
+		boolean isAllowedEmail = StringUtils.validateEmail(email) && !userDAO.existEmail(email.trim());
+		boolean isEqualPasswords = PasswordUtils.isEqualPasswords(password, confirmPassword);
+		boolean isAllowedPassword = PasswordUtils.validatePassword(password);
 		
 		if(!isAllowedUsername) GrowlUtils.addWarningMessage("Username", "Username already used!");
 		if(!isAllowedEmail) GrowlUtils.addWarningMessage("Email", "Email already used or invalid!");
