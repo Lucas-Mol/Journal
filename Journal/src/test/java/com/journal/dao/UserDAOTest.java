@@ -1,11 +1,11 @@
 package com.journal.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import com.journal.model.User;
-import com.journal.util.StringUtils;
 
 public class UserDAOTest {
 
@@ -32,15 +32,18 @@ public class UserDAOTest {
 	@Test
 	public void testValidateUsername() {
 		
-		//Username already used, must return false
-		assertFalse(StringUtils.validateUsername("test01"));
+		UserDAO userDAO = new UserDAO();
+		
+		//Username already used, must return true
+		assertTrue(userDAO.existUsername("test01"));
 	}
 	
 	@Test
 	public void testValidateEmail() {
+		UserDAO userDAO = new UserDAO();
 		
-		//Username already used, must return false
-		assertFalse(StringUtils.validateEmail("test@test.com"));
+		//Username already used, must return true
+		assertTrue(userDAO.existEmail("test@test.com"));
 	}
 	
 	@Test
