@@ -591,6 +591,7 @@ body .ui-dialog .ui-dialog-titlebar {
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: column;
+	min-width: 720px;
 }
 
 .modal-section .field {
@@ -609,6 +610,10 @@ body .ui-dialog .ui-dialog-titlebar {
 	font-size: 20px;
 	text-align: center;
 	color: #818181;
+}
+
+.modal-section .btn-login-signup {
+	margin-top: 40px;
 }
 
 
@@ -736,3 +741,24 @@ body .ui-dialog .ui-dialog-titlebar {
 	background-color: #A50F69;
 }
 
+.modal-section .ui-password.ui-password-masked .ui-password-icon {
+	margin: auto;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #00000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #2C3B4E;
+  border: 1px solid #10101050;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5A6B7E;
+}
