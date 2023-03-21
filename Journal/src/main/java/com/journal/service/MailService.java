@@ -146,5 +146,47 @@ public class MailService {
 		}
 		
 	}
+
+	public static boolean sendChangePasswordEmail(User user, ServletContext context) {
+		MimeMultipart multipart = new MimeMultipart();
+		String htmlBody = 	
+				"<h1 style='display: flex; justify-content: center; color: #1E9AFF'>Journal - Changed Password</h1>" + 
+				"<img style='display: flex; justify-content: center;' src=\"cid:logo-img\">" +
+				"<br style='display: flex; justify-content: center;'/>" +
+				"<p style='display: flex; justify-content: center;'>Hi, " + user.getUsername() + "!</p>" +
+				"<br style='display: flex; justify-content: center;'/>" +
+				"<p style='display: flex; justify-content: center;'>Your password was changed successfully!</p>" +
+				"<img style='display: flex; justify-content: center; max-height: 100px;' src=\"cid:calton-fun-gif\">" +
+				"<p style='display: flex; justify-content: center;'>If you didn't request any password change, contact the System Admistrator</p>" +
+				"<br style='display: flex; justify-content: center;'/>" +
+				"<a style='display: flex; justify-content: center;' href=\"mailto:"+ Constants.PROFESSINAL_MAIL +"\">"+ Constants.PROFESSINAL_MAIL +"</a>";
+		try {
+			//TODO not a good practice
+			String logoPath = (context != null)? context.getRealPath("/resources/images/full-logo.png") : "src/main/webapp/resources/images/full-logo.png";
+			MimeBodyPart logoPart = new MimeBodyPart();
+			logoPart.attachFile(new File(logoPath));
+			logoPart.setContentID("<logo-img>");
+			
+			//TODO not a good practice
+			String sadPath = (context != null)? context.getRealPath("/resources/images/calton-fun.gif") : "src/main/webapp/resources/images/calton-fun.gif";
+			MimeBodyPart caltonFunPart = new MimeBodyPart();
+			caltonFunPart.attachFile(new File(sadPath));
+			caltonFunPart.setContentID("<calton-fun-gif>");
+			caltonFunPart.setHeader("Content-Type", "image/gif");
+			
+			MimeBodyPart htmlPart = new MimeBodyPart();
+			htmlPart.setContent(htmlBody, "text/html");
+
+			multipart.addBodyPart(htmlPart);
+			multipart.addBodyPart(logoPart);
+			multipart.addBodyPart(caltonFunPart);
+			
+			sendEmail(user.getEmail(), "Journal - Password Changed", multipart);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 }
