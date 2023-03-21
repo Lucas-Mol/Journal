@@ -7,6 +7,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.PrimeFaces;
+
 import com.journal.exception.ForgotPasswordException;
 import com.journal.service.ForgotPasswordService;
 import com.journal.util.Constants;
@@ -51,6 +53,7 @@ public class FormForgotPasswordBB {
 		
 		if(success) {
 			GrowlUtils.addInfoMessage("Success", "You received a password reset email");
+			PrimeFaces.current().executeScript("PF('ForgotPasswordDlg').hide();");
 		}
 	}
 	
