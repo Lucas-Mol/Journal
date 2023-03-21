@@ -27,6 +27,16 @@ public class User implements Serializable{
 	@Column(name = "email")
 	private String email;	
 	
+	public String getUsernameInitials() {
+		String initials = "";
+
+		for (String text : this.getUsername().split(" ")) {
+			initials += (text.length() > 2) ? text.substring(0, 1) : "";
+		}
+
+		return initials = (initials.length() > 2) ? initials.substring(0, 2).toUpperCase() : initials.toUpperCase();
+	}
+	
 	public int getId() {
 		return id;
 	}
