@@ -1,0 +1,50 @@
+<ui:composition template="/templates/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{profileMB.init()}" />
+	</f:metadata>
+		
+	<ui:define name="content">
+		<p:growl id="growl-alert" showDetail="true" sticky="false">
+			<p:autoUpdate />
+		</p:growl>
+
+		<div class="profile__section">
+			<div style="background-color: #{sessionMB.hexColor}" class="profile__user-circle">
+				<h:outputText styleClass="profile__user-circle-text" value="#{profileMB.user.usernameInitials}"/>
+			</div>
+			<div class="profile__user-data">
+				<h:outputText styleClass="profile__username" value="#{profileMB.user.username}" />
+				<h:outputText styleClass="profile__email" value="#{profileMB.user.email}" />
+			</div>
+			<div class="profile__change-password-div">
+				<p:commandButton id="btn-change-password" styleClass="profile__btn-change-password" value="Change password">
+					<p:ajax event="click" update="ChangePasswordDlg" oncomplete="PF('ChangePasswordDlg').show();"/>
+				</p:commandButton>
+			</div>
+
+			<h:form class="profile__logout-div">
+				<p:commandButton id="btn-logout" styleClass="profile__btn-logout" 
+					value="Logout" action="#{profileMB.logout()}"/>
+			</h:form>
+		</div>
+		
+		<div id="changePasswordDiv">
+			<p:dialog widgetVar="ChangePasswordDlg"
+						id="ChangePasswordDlg" styleClass="modal"
+						header="Change Password" modal="true"
+						resizable="false" draggable="true" closable="true">
+				<ui:include id="ChangePasswordInclude" src="../../components/change-password.xhtml">
+					<ui:param name="formChangePassword" 
+								value="#{profileMB.formChangePasswordBB}" />
+				</ui:include>
+			</p:dialog>
+		</div>
+
+	</ui:define>
+</ui:composition>

@@ -366,7 +366,7 @@
 .header-background {
 	margin: 0;
 	height: 60px;
-	width: 100vw;
+	width: 100%;
 	background-color: #2C3B4E;
 }
 
@@ -441,17 +441,18 @@
 
 .header-user-circle-text {
 	display: flex;
-	margin: auto;
+	margin: 0 auto;
+	
 	font-family: 'Nunito';
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 800;
 	font-size: 20px;
 	letter-spacing: 2px;
+	text-shadow: -1px 0 #505050, 0 -1px #505050, 1px 0 #505050, 0 1px #505050;
 	
-	
+	color: #DADADA;
+
 	text-decoration: none;
-	
-	color: #000000;
 }
  
 .header-btn-div {
@@ -567,7 +568,8 @@
 	text-fill-color: transparent;
 }
 
-body .ui-dialog .ui-dialog-titlebar, body .ui-dialog .ui-dialog-content {
+body .ui-dialog .ui-dialog-titlebar, body .ui-dialog .ui-dialog-content,
+.app-main-background .ui-dialog .ui-dialog-titlebar, .app-main-background .ui-dialog .ui-dialog-content  {
 	background-color: #171D29;
 	
 	font-family: 'Nunito';
@@ -608,3 +610,129 @@ body .ui-dialog .ui-dialog-titlebar {
 	text-align: center;
 	color: #818181;
 }
+
+
+/* Profile Page */
+
+.profile__section {
+	min-height: 100vh;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.profile__user-circle {
+	margin: 0 auto;
+	border-radius: 100px;
+	height: 150px;
+	width: 150px;
+	border: 2px solid #FFFFFF50;
+	
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+}
+
+.profile__user-circle-text {
+	display: flex;
+	margin: auto;
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 800;
+	font-size: 60px;
+	letter-spacing: 2px;
+	text-shadow: -1px 0 #505050, 0 -1px #505050, 1px 0 #505050, 0 1px #505050;
+	
+	color: #DADADA;
+
+	text-decoration: none;
+}
+
+.profile__user-data {
+	margin: 50px auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	flex-direction: column;
+	justify-content: center;
+	
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	color: #ABABAB;
+}
+
+.profile__username  {
+	display: flex;
+	margin: auto;
+	
+	font-size: 40px;
+	line-height: 55px;
+	color: #ABABAB;
+}
+
+.profile__email  {
+	display: flex;
+	margin: auto;
+	
+	font-size: 25px;
+	line-height: 41px;
+	
+}
+
+.profile__change-password-div {
+	margin: 10px auto 0 auto;
+}
+
+.profile__change-password-div .profile__btn-change-password {
+	display: flex;
+	height: 70px;
+	width: 300px;
+	border-radius: 50px;
+	background-color: #444725;
+	border-color: black;
+	
+	justify-content: center;
+	align-items: center;
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 25px;
+	line-height: 41px;
+	color: #E2E2E2;
+}
+
+.profile__change-password-div .profile__btn-change-password:hover {
+	background-color: #444725;
+}
+
+.profile__logout-div {
+	display: flex;
+	justify-content: center;
+	margin-top: 70px;
+}
+
+.profile__logout-div .profile__btn-logout {
+	margin: 30px auto 0 auto;
+	height: 70px;
+	width: 180px;
+	border-radius: 50px;
+	background-color: #A50F69;
+	border-color: black;
+	
+	justify-content: center;
+	align-items: center;
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 25px;
+	line-height: 41px;
+	color: #E2E2E2;
+}
+
+.profile__logout-div .profile__btn-logout:hover {
+	background-color: #A50F69;
+}
+
