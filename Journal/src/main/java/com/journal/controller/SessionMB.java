@@ -1,5 +1,6 @@
 package com.journal.controller;
 
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -9,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import com.journal.enumeration.ColorEnum;
 import com.journal.model.User;
 
 @ManagedBean
@@ -18,6 +20,7 @@ public class SessionMB {
 	private static SessionMB instance;
 	
 	private final int startPasswordResetAttempt = 0;
+	private static String hexColor;
 	
     public static SessionMB getInstance(){
         if (instance == null){
@@ -52,6 +55,17 @@ public class SessionMB {
 		
 		scheduler.schedule(attemptCleaner, 1, TimeUnit.MINUTES);	
 	}
+	
+	public static String randomizeHexColor() {
+		Random random = new Random();
+		ColorEnum[] colorEnumArray = ColorEnum.values();
+		
+		int randomIndex = random.nextInt(colorEnumArray.length);
+		
+		SessionMB.hexColor = colorEnumArray[randomIndex].getColor();
+		
+		return SessionMB.hexColor;
+	}
     
    public User getSessionUser(){
         return (User) getAttribute("sessionUser");
@@ -82,6 +96,9 @@ public class SessionMB {
 	public void setNumPasswordResetAttempt(int numPasswordResetAttempt) {
 		setAttribute("numPasswordResetAttempt", numPasswordResetAttempt);
 	}
-  
+	
+	public String getHexColor() {
+		return SessionMB.hexColor;
+	}
 
 }
