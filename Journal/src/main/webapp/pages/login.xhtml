@@ -37,13 +37,13 @@
 			           	<p:password styleClass="field"
 			            	 id="password" toggleMask="true" placeholder="Password"
 			            	  value="#{loginMB.password}" />
-						<p:commandButton styleClass="btn-forgot-password" value="Forgot Password?">
+						<p:commandButton type="button" styleClass="btn-forgot-password" value="Forgot Password?">
 							<p:ajax event="click" listener="#{loginMB.updateUsernameFormForgotPasswordBB()}"
 								update="ForgotPasswordDlg" oncomplete="PF('ForgotPasswordDlg').show();"/>
 						</p:commandButton>
 					</div>
 		 
-		         	<p:commandButton id="btn-login" value="Login" styleClass="btn-login-signup" 
+		         	<p:commandButton type="submit" id="btn-login" value="Login" styleClass="btn-login-signup" 
 		         		action="#{loginMB.login()}"/>
 		         	
 				    <div class="signup-footer">
