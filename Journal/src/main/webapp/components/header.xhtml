@@ -23,9 +23,9 @@
 					<div class="header-username-text">
 						<h:outputText styleClass="header-username-text" value="#{headerMB.user.username}"/>
 					</div>
-					<h:link styleClass="header-user-link" outcome="/pages/app/dashboard">
-						<div style="background-color: #{headerMB.randomizeHexColor()}" class="header-user-circle">
-							<h:outputText styleClass="header-user-circle-text" value="#{headerMB.usernameInitials}"/>
+					<h:link styleClass="header-user-link" outcome="/pages/app/profile">
+						<div style="background-color: #{sessionMB.randomizeHexColor()}" class="header-user-circle">
+							<h:outputText styleClass="header-user-circle-text" value="#{headerMB.user.usernameInitials}"/>
 						</div>
 					</h:link>
 				</p:outputPanel>
