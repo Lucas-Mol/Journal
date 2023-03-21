@@ -8,6 +8,9 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 	<ui:define name="no-session-content">
+		<p:growl id="growl-alert" showDetail="true" sticky="false">
+			<p:autoUpdate />
+		</p:growl>
 	
 		<div class="login-signup-section">
 			
@@ -54,7 +57,7 @@
 			         </div>  
 					
 					
-		         	<p:commandButton id="btn-login" value="Sign up" styleClass="btn-login-signup" action="#{signupMB.singup()}"/>
+		         	<p:commandButton id="btn-login" value="Sign up" styleClass="btn-login-signup" action="#{signupMB.signUp()}"/>
 				   	
 		      	</h:form>
 			</div>
