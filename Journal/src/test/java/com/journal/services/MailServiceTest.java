@@ -10,6 +10,7 @@ import javax.mail.internet.MimeMultipart;
 import org.junit.Test;
 
 import com.journal.model.User;
+import com.journal.service.MailService;
 import com.journal.util.Constants;
 
 public class MailServiceTest {
