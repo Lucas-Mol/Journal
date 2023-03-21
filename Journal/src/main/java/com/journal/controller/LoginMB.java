@@ -1,28 +1,26 @@
 package com.journal.controller;
 
-import java.io.IOException;
-
 import javax.faces.application.ViewExpiredException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import com.journal.dao.UserDAO;
+import com.journal.exception.LogInException;
 import com.journal.model.User;
+import com.journal.service.LoginService;
 import com.journal.util.Constants;
 import com.journal.util.GrowlUtils;
-import com.journal.util.PasswordUtils;
 
 @ManagedBean
 @ViewScoped
 public class LoginMB {
 	
 	private FormForgotPasswordBB formForgotPasswordBB;
+	private SessionMB session = SessionMB.getInstance();
+	private LoginService loginService = new LoginService();
 	
 	private String username;
 	private String password;
-	private UserDAO userDAO = new UserDAO();
-	private SessionMB session = SessionMB.getInstance();
 	
 	public void init() {
 		
@@ -33,46 +31,32 @@ public class LoginMB {
 	}
 	
 	public void login() {
-		boolean validatedFields = validateFields();
+		User user;
+		User sessionUser = session.getSessionUser();
 		
-		if(!validatedFields) return;
+		if(!validateFields()) return; 
 		
-		User user = userDAO.findByUsernameOrEmail(username);
-		 
 		try {
-			if(user != null && validateUserWithFields(user, username, password)) {
-						
-					User sessionUser = session.getSessionUser();
-						
-					if (sessionUser != null) {
-							
-						if (validateSessionUserWithLoggingUser(sessionUser, user)) {
-							FacesContext.getCurrentInstance().getExternalContext().redirect("app/dashboard.xhtml");
-						}
-							
-						session.finishSession();
-						FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
-					}
-					
-					//Login and redirect to dashboard
-					session.setSessionUser(user);
-					FacesContext.getCurrentInstance().getExternalContext().redirect("app/dashboard.xhtml");
-				}  else {
-				GrowlUtils.addErrorMessage("Incorrect", "Incorrect username or password!");
-			}
-		} catch (IOException e) {
+			user = loginService.login(username, password, sessionUser);
+		} catch (LogInException e) {
+			GrowlUtils.addErrorMessage(e.growlTitle, e.growlMessage);
 			e.printStackTrace();
+			return;
+		}
+
+		if (user != null) {
+			session.setSessionUser(user);
+			redirectToDashboard();
 		}
 	}
 	
-	private boolean validateUserWithFields(User user, String login, String password) {		
-		return (user.getUsername().equals(login) || user.getEmail().equals(login)) 
-				&& user.getPassword().equals(PasswordUtils.encryptPassword(password));
-	}
-	
-	private boolean validateSessionUserWithLoggingUser(User sessionUser, User loggingUser) {
-		return sessionUser.getEmail().equals(loggingUser.getEmail()) 
-				&& sessionUser.getUsername().equals(loggingUser.getUsername());
+	private void redirectToDashboard() {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("app/dashboard.xhtml");	
+		} catch (Exception e) {
+			e.printStackTrace();
+			GrowlUtils.addErrorMessage("Sorry", "You had a redirect problem. Please try to login through Login Page");
+		}
 	}
 
 	private boolean validateFields() {

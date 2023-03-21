@@ -1,74 +1,51 @@
 package com.journal.controller;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 
-import com.journal.dao.UserDAO;
+import com.journal.exception.LogInException;
+import com.journal.exception.MailException;
+import com.journal.exception.SignUpException;
 import com.journal.model.User;
-import com.journal.services.MailService;
+import com.journal.service.SignupService;
 import com.journal.util.GrowlUtils;
-import com.journal.util.PasswordUtils;
-import com.journal.util.StringUtils;
 
 @ManagedBean
 @ViewScoped
 public class SignupMB {
 	
+	private SignupService signupService = new SignupService();
+	
 	private String username;
 	private String email;
 	private String password;
 	private String confirmPassword;
-	private UserDAO userDAO = new UserDAO();
 	
-	public void singup() {
-		boolean validatedFields = validateFields();
+	public void signUp() {
+	
+		if(!validateFields()) return;
 		
-		if(!validatedFields) return;
-		
-		String encryptedPassword = PasswordUtils.encryptPassword(password);
-		
-		if(encryptedPassword == null || encryptedPassword == "") {
-			GrowlUtils.addErrorMessage("Failed", "Something went wrong. Please contact the System Administrator.");
-			return;
-		}
-		
-		User newUser = new User();
-		newUser.setUsername(username);
-		newUser.setEmail(email);
-		newUser.setPassword(encryptedPassword);
+		User newUser = null;
 		
 		try {
-			userDAO.insert(newUser);
-		} catch(Exception e) {
-			e.printStackTrace();
-			GrowlUtils.addErrorMessage("Failed", "Something went wrong. Please contact the System Administrator.");
+			newUser = signupService.signUp(username, email, password);
+		} catch (SignUpException e) {
+			GrowlUtils.addErrorMessage("Failed", "Something went wrong. Please contact the System Administrator.");		
+		} catch (MailException e) {
+			System.out.println("LOG: Failed to send mail to: "+ email);
 		}
-		
-		try {
-			User loggedUser = userDAO.findByUsernameOrEmail(newUser.getEmail());
-			SessionMB.getInstance().setSessionUser(loggedUser);
-		} catch (Exception e) {
-			e.printStackTrace();
-			GrowlUtils.addErrorMessage("Sorry", "We have a login problem after sign up. Please try to login through Login Page");
-		}
-		
-		//TODO: get the ServletContext to point image on email properly. Not a good practice
-		ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-		
-		//Send email async
-		ExecutorService asyncExe = Executors.newSingleThreadExecutor();
-		asyncExe.submit(() -> {
-	    	MailService.sendSignupEmail(newUser, context);
-	    });
-		asyncExe.shutdown();
 	    
-		GrowlUtils.addInfoMessage("Success", "You've been signed up successfully. Welcome to Journal");
-		redirectToDashboard();
+		if(newUser != null) {
+			try {
+				loginNewUser(newUser);
+				GrowlUtils.addInfoMessage("Success", "You've been signed up successfully. Welcome to Journal " + newUser.getUsername());
+				redirectToDashboard();		
+			} catch (LogInException le) {
+				le.printStackTrace();
+				GrowlUtils.addErrorMessage("Sorry", "We have a login problem after sign up. Please try to login through Login Page");
+			}
+		}
 	}
 	
 	private boolean validateFields() {
@@ -96,10 +73,10 @@ public class SignupMB {
 	}
  	
 	private boolean checkContent() {
-		boolean isAllowedUsername = !userDAO.existUsername(username.trim()); //if it DOES exist then username's not allowed
-		boolean isAllowedEmail = StringUtils.validateEmail(email) && !userDAO.existEmail(email.trim());
-		boolean isEqualPasswords = PasswordUtils.isEqualPasswords(password, confirmPassword);
-		boolean isAllowedPassword = PasswordUtils.validatePassword(password);
+		boolean isAllowedUsername = signupService.validateUsername(username);
+		boolean isAllowedEmail = signupService.validateEmail(email);
+		boolean isEqualPasswords = signupService.isEqualPasswords(password, confirmPassword);
+		boolean isAllowedPassword = signupService.validatePassword(password);
 		
 		if(!isAllowedUsername) GrowlUtils.addWarningMessage("Username", "Username already used!");
 		if(!isAllowedEmail) GrowlUtils.addWarningMessage("Email", "Email already used or invalid!");
@@ -107,6 +84,14 @@ public class SignupMB {
 		if(!isAllowedPassword) GrowlUtils.addWarningMessage("Password", "Invalid password!");
 		
 		return isAllowedUsername && isAllowedEmail && isEqualPasswords && isAllowedPassword;
+	}
+	
+	private void loginNewUser(User newUser) throws LogInException{
+		try {
+			SessionMB.getInstance().setSessionUser(newUser);
+		} catch (Exception e) {
+			throw new LogInException();
+		}
 	}
 	
 	private void redirectToDashboard() {

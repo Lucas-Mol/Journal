@@ -6,14 +6,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 
-import com.journal.dao.UserDAO;
-import com.journal.model.User;
-import com.journal.services.MailService;
+import com.journal.exception.ForgotPasswordException;
+import com.journal.service.ForgotPasswordService;
 import com.journal.util.Constants;
 import com.journal.util.GrowlUtils;
-import com.journal.util.PasswordUtils;
 
 @ManagedBean
 @ViewScoped
@@ -21,6 +18,7 @@ public class FormForgotPasswordBB {
 	
 	private String login;
 	private SessionMB session;
+	private ForgotPasswordService forgotPasswordService = new ForgotPasswordService();
 	
 	private final int MAX_ATTEMPTS = 3;
 	
@@ -29,8 +27,6 @@ public class FormForgotPasswordBB {
 		this.session = session;
 	}
 	
-	// THIS IS A TEMPORARY SOLUTION
-	// TODO: Do a email sending a short life page' link using token which will expire in a short period.
 	public void sendEmail() {
 		
 		if(exceededPasswordResetAttempt()) {
@@ -43,31 +39,18 @@ public class FormForgotPasswordBB {
 			return;
 		}
 		
-		UserDAO userDAO = new UserDAO();
+		boolean success = false;
 		
-		if(userDAO.existUsername(login) || userDAO.existEmail(login)) {
-			User user = userDAO.findByUsernameOrEmail(login);
-			
-			try {
-				String newPassword = PasswordUtils.generateNewPassword();
-				String newEncryptedPassword = PasswordUtils.encryptPassword(newPassword);
-				
-				user.setPassword(newEncryptedPassword);
-				userDAO.edit(user);
-				
-				//TODO: get the ServletContext to point image on email properly. Not a good practice
-				ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-
-				MailService.sendForgotPasswordEmail(user, newPassword, context);
-				GrowlUtils.addInfoMessage("Success", "You received a password reset email");
-					
-			} catch (Exception e) {
-				GrowlUtils.addErrorMessage("Sorry", "We have a problem to re-generate your password. Please contact the System Administrator");
-				e.printStackTrace();
-			}
-		} else {
-			GrowlUtils.addWarningMessage("Username/Email not found", "This Username/Email wasn't found on Journal");
+		try {
+			success = forgotPasswordService.sendNewPassword(login);
+		} catch (ForgotPasswordException fpe) {
+			fpe.printStackTrace();
+			GrowlUtils.addErrorMessage(fpe.growlTitle, fpe.growlMessage);
 			return;
+		}
+		
+		if(success) {
+			GrowlUtils.addInfoMessage("Success", "You received a password reset email");
 		}
 	}
 	
@@ -107,7 +90,6 @@ public class FormForgotPasswordBB {
 				ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 				externalContext.redirect(externalContext.getRequestContextPath() + "/pages/login.xhtml");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

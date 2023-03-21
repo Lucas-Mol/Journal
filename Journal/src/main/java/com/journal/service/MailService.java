@@ -1,4 +1,4 @@
-package com.journal.services;
+package com.journal.service;
 
 import java.io.File;
 import java.util.Properties;
@@ -109,11 +109,12 @@ public class MailService {
 				"<br style='display: flex; justify-content: center;'/>" +
 				"<p style='display: flex; justify-content: center;'>Hi, " + user.getUsername() + "!</p>" +
 				"<br style='display: flex; justify-content: center;'/>" +
-				"<p style='display: flex; justify-content: center;'>We're sending you this email because you requested a password reset.</p>" +
-				"<p style='display: flex; justify-content: center;'><strong>New Password:</strong>" + newPassword + "</p>" +
+				"<p style='display: flex; justify-content: center;'>We've seeing that you lost your password.</p>" +
+				"<img style='display: flex; justify-content: center;' src=\"cid:sad-gif\">" +
+				"<p style='display: flex; justify-content: center;'>But we're here... We're sending you this email because you requested a password reset.</p>" +
+				"<p style='display: flex; justify-content: center;'><strong>New Password: </strong>" + newPassword + "</p>" +
 				"<br style='display: flex; justify-content: center;'/>" +
 				"<p style='display: flex; justify-content: center;'>If you didn't request any password reset, contact the System Admistrator</p>" +
-				"<img style='display: flex; justify-content: center;' src=\"cid:fun-img\">" +
 				"<br style='display: flex; justify-content: center;'/>" +
 				"<a style='display: flex; justify-content: center;' href=\"mailto:"+ Constants.PROFESSINAL_MAIL +"\">"+ Constants.PROFESSINAL_MAIL +"</a>";
 		try {
@@ -124,17 +125,18 @@ public class MailService {
 			logoPart.setContentID("<logo-img>");
 			
 			//TODO not a good practice
-			String funPath = (context != null)? context.getRealPath("/resources/images/welcome-fun.png") : "src/main/webapp/resources/images/welcome-fun.png";
-			MimeBodyPart funPart = new MimeBodyPart();
-			funPart.attachFile(new File(funPath));
-			funPart.setContentID("<fun-img>");
+			String sadPath = (context != null)? context.getRealPath("/resources/images/sad-gif.gif") : "src/main/webapp/resources/images/sad-gif.gif";
+			MimeBodyPart sadPart = new MimeBodyPart();
+			sadPart.attachFile(new File(sadPath));
+			sadPart.setContentID("<sad-gif>");
+			sadPart.setHeader("Content-Type", "image/gif");
 			
 			MimeBodyPart htmlPart = new MimeBodyPart();
 			htmlPart.setContent(htmlBody, "text/html");
 
 			multipart.addBodyPart(htmlPart);
 			multipart.addBodyPart(logoPart);
-			multipart.addBodyPart(funPart);
+			multipart.addBodyPart(sadPart);
 			
 			sendEmail(user.getEmail(), "Journal - Reset Password", multipart);
 			return true;
