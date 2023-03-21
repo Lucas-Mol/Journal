@@ -20,7 +20,7 @@ public class ProfileMB {
 	private FormChangePasswordBB formChangePasswordBB;
 	
 	public void init() {
-		formChangePasswordBB = new FormChangePasswordBB(session);
+		formChangePasswordBB = new FormChangePasswordBB(session, user);
 	}
 
 	public void logout() {
