@@ -4,11 +4,24 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{dashboardMB.init()}"/>
+	</f:metadata>
 		
 	<ui:define name="content">
 		<p:growl id="growl-alert" showDetail="true" sticky="false">
 			<p:autoUpdate />
 		</p:growl>
+		
+		<div class="dashboard-grid">
+			<div>
+				<ui:include src="/components/post-editor.xhtml">
+					<ui:param name="postEditorBB" value="#{dashboardMB.postEditorBB}"/>
+					<ui:param name="editorMode" value="insert-mode"/>
+				</ui:include>
+			</div>
+		</div>
 	
 
 	</ui:define>
