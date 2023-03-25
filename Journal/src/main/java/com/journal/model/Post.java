@@ -2,6 +2,7 @@ package com.journal.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_post")
 public class Post implements Serializable{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = UUID.randomUUID().getLeastSignificantBits();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,6 +74,28 @@ public class Post implements Serializable{
 	
 	public void setLabel(Label label) {
 		this.label = label;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Post other = (Post) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 	
 	
