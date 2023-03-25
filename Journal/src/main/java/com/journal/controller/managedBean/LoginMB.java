@@ -1,10 +1,11 @@
-package com.journal.controller;
+package com.journal.controller.managedBean;
 
 import javax.faces.application.ViewExpiredException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import com.journal.controller.backingBean.FormForgotPasswordBB;
 import com.journal.exception.LogInException;
 import com.journal.model.User;
 import com.journal.service.LoginService;

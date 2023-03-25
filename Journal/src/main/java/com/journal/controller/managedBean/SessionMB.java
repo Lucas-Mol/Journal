@@ -1,4 +1,4 @@
-package com.journal.controller;
+package com.journal.controller.managedBean;
 
 import java.util.Random;
 import java.util.concurrent.Executors;

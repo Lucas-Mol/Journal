@@ -1,4 +1,4 @@
-package com.journal.controller;
+package com.journal.controller.managedBean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;

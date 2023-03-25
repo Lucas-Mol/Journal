@@ -1,4 +1,4 @@
-package com.journal.filter;
+package com.journal.security.filter;
 
 import java.io.IOException;
 
@@ -9,15 +9,13 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-@WebFilter("/pages/app/*")
-public class AppAuthFilter implements Filter {
+@WebFilter("/components/*")
+public class ComponentsFilter implements Filter {
 
 
-    public AppAuthFilter() {
+    public ComponentsFilter() {
         // TODO Auto-generated constructor stub
     }
 
@@ -26,18 +24,11 @@ public class AppAuthFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		HttpServletResponse httpResponse = (HttpServletResponse) response;	
 
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		HttpSession session = (HttpSession) httpRequest.getSession();
-		
-		if(session.getAttribute("sessionUser") == null) {
-			httpResponse.sendRedirect("/pages/login.xhtml");
-		} else {
-			chain.doFilter(request, response);
-		}
+			httpResponse.sendError(404);
+	
 	}
-
 
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub

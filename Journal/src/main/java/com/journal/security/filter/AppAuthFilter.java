@@ -1,4 +1,4 @@
-package com.journal.filter;
+package com.journal.security.filter;
 
 import java.io.IOException;
 
@@ -13,12 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+@WebFilter("/pages/app/*")
+public class AppAuthFilter implements Filter {
 
-@WebFilter(urlPatterns = {"/pages/login.xhtml", "/pages/signup.xhtml", "/pages/welcome-page.xhtml"})
-public class LoginAuthFilter implements Filter {
 
-
-    public LoginAuthFilter() {
+    public AppAuthFilter() {
         // TODO Auto-generated constructor stub
     }
 
@@ -27,17 +26,16 @@ public class LoginAuthFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
+
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpSession session = (HttpSession) httpRequest.getSession();
 		
 		if(session.getAttribute("sessionUser") == null) {
-			chain.doFilter(request, response);
+			httpResponse.sendRedirect("/pages/login.xhtml");
 		} else {
-			httpResponse.sendRedirect("/pages/app/dashboard.xhtml");
+			chain.doFilter(request, response);
 		}
-			
 	}
 
 

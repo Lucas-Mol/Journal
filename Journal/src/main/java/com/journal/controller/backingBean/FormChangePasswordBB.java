@@ -1,10 +1,11 @@
-package com.journal.controller;
+package com.journal.controller.backingBean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.PrimeFaces;
 
+import com.journal.controller.managedBean.SessionMB;
 import com.journal.exception.ChangePasswordException;
 import com.journal.exception.MailException;
 import com.journal.model.User;

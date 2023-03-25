@@ -1,4 +1,4 @@
-package com.journal.controller;
+package com.journal.controller.backingBean;
 
 import java.io.IOException;
 
@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
 
+import com.journal.controller.managedBean.SessionMB;
 import com.journal.exception.ForgotPasswordException;
 import com.journal.service.ForgotPasswordService;
 import com.journal.util.Constants;

@@ -1,4 +1,4 @@
-package com.journal.controller;
+package com.journal.controller.managedBean;
 
 import java.io.IOException;
 
@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import com.journal.controller.backingBean.FormChangePasswordBB;
 import com.journal.model.User;
 
 @ManagedBean
