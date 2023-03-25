@@ -745,6 +745,148 @@ body .ui-dialog .ui-dialog-titlebar {
 	margin: auto;
 }
 
+/* Post Editor Component */
+
+.post-editor-form__grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+    grid-gap: 10px;
+    padding: 40px 45px;
+}
+
+.post-editor-form__grid .post-editor-form__block-one {
+	grid-row: 1 / span 3;
+    grid-column: 1;
+    display: flex;
+}
+
+.post-editor-form__grid .post-editor-form__block-two {
+	grid-row: 1;
+    grid-column: 2;
+    display: flex;
+ 	justify-content: flex-end;
+}
+
+.post-editor-form__grid .post-editor-form__block-three {
+	grid-row: 2;
+    grid-column: 2;
+    display: flex;
+ 	justify-content: flex-end;
+}
+
+.post-editor-form__grid .post-editor-form__block-four {
+	grid-row: 3;
+    grid-column: 2;
+    display: flex;
+ 	justify-content: center;
+}
+
+.post-editor-form__grid .post-editor__input-label-text {
+	height: 40px;
+    width: 200px;
+    margin-top: 2px;
+    
+    background: #332835 !important;
+    border: 0.5px solid #81818170 !important;
+    border-radius: 10px !important;
+    
+    font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	color: #E2E2E2 !important;
+}
+
+.post-editor-form__grid .post-editor__input-label-color {
+	height: 40px;
+    width: 200px;
+    margin-top: -18px;
+    
+    background: #332835 !important;
+    border: 0.5px solid #81818170 !important;
+    border-radius: 10px !important;
+    
+    font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	color: #E2E2E2 !important;
+}
+
+.ui-helper-reset, .ui-selectonemenu-label, .ui-inputfield ui-corner-all  {
+	background: #332835 !important;
+    border: 0.5px solid #81818170 !important;
+    border-radius: 10px !important;
+}
+
+.post-editor-form__grid .post-editor__input-label-color .ui-inputfield {
+	color: #73787e;
+}
+
+body .ui-state-highlight {
+ 	background: #353040 !important;
+ 	color: #73787e !important;
+}
+
+.post-editor-form__grid .post-editor__input-label-color .ui-inputfield {
+	border: none !important;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-items-wrapper {
+	background: #332835 !important;
+}
+
+.post-editor-form__grid .post-editor-form__block-four .btn-send {
+	width: 120px;
+	height: 60px;
+	
+	border-radius: 50px;
+	
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 25px;
+	color: #E2E2E2;}
+
+.post-editor {
+	width: 650px;
+}
+
+.post-editor .ui-editor-toolbar, .post-editor .ql-container .ql-editor {
+	background: #332835 !important;
+}
+
+.post-editor .ui-editor-toolbar {
+	border: 0.5px solid #81818170 !important;
+	border-bottom: 0.5px solid #81818130 !important;
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+}
+
+.post-editor .ql-container {
+	border: 0.5px solid #81818170 !important;
+	border-top: none !important;
+    border-bottom-right-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+
+.post-editor .ql-container .ql-editor {
+	border-bottom-right-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+
+.post-editor .ql-container .ql-editor, .post-editor .ql-container .ql-editor::before {
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	color: #E2E2E2 !important;
+}
+
 ::-webkit-scrollbar {
   width: 11px;
 }
