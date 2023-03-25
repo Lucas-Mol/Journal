@@ -1,0 +1,50 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+
+<composite:interface>
+	<composite:attribute name="postEditorBB" required="true"
+		type="com.journal.controller.PostEditorBB"/>
+	<composite:attribute name="editorMode"/>
+</composite:interface>
+
+<composite:implementation>
+	
+	<h:form styleClass="post-editor-form__grid">
+		<h:panelGroup styleClass="post-editor-form__block-one">
+			<p:textEditor styleClass="post-editor" height="180" placeholder="Text here..." value="#{postEditorBB.postContent}">
+				<f:facet name="toolbar">
+					<span class="ql-formats">
+		                <button class="ql-bold"></button>
+		                <button class="ql-italic"></button>
+		                <button class="ql-underline"></button>
+		                <button class="ql-strike"></button>
+		            </span>
+				</f:facet>
+			</p:textEditor>
+		</h:panelGroup>
+		
+		<h:panelGroup styleClass="post-editor-form__block-two">
+			<p:inputText styleClass="post-editor__input-label-text" value="#{postEditorBB.labelContent}" placeholder="Label"/>
+		</h:panelGroup>
+		
+		<h:panelGroup styleClass="post-editor-form__block-three">
+			<p:selectOneMenu styleClass="post-editor__input-label-color" value="#{postEditorBB.labelColor}">
+				<f:selectItem noSelectionOption="true" itemLabel="Label Color" itemValue="null" />
+				<f:selectItems value="#{postEditorBB.lsColorEnum}"
+				var="color" itemLabel="#{color.name()}" itemValue="#{color.id}"/>
+			</p:selectOneMenu> 
+		</h:panelGroup>
+		
+		<h:panelGroup styleClass="post-editor-form__block-four">
+			<p:commandButton styleClass="btn-send" value="Send"/> 
+		</h:panelGroup>
+	</h:form>
+	
+</composite:implementation>
+	
+</ui:composition>
