@@ -1,6 +1,5 @@
 package com.journal.controller.backingBean;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +26,31 @@ public class PostEditorBB {
 		
 		setLsColorEnum(Arrays.stream(ColorEnum.values())
                 .collect(Collectors.toList()));
+	}
+	
+	public void sendPost() {
+		
+		if(!validateFields()) return; 
+		
+		
+	}
+	
+	private boolean validateFields() {
+		if(this.postContent == null || this.postContent.isEmpty()) {
+			GrowlUtils.addErrorMessage("Post text", "The 'Post text' field is required");
+			return false;
+		}
+		if((this.labelContent != null && !this.labelContent.isEmpty())
+				&& this.labelColor == 0) {
+			GrowlUtils.addErrorMessage("Label Color", "The 'Label Color' field is required if 'Label' field was filled");
+			return false;
+		}
+		if(this.labelColor != 0 &&
+				(this.labelContent == null || this.labelContent.isEmpty())) {
+			GrowlUtils.addErrorMessage("Label", "The 'Label' field is required if 'Label Color' field was filled");
+			return false;
+		}
+		return true;
 	}
 
 	public String getPostContent() {
