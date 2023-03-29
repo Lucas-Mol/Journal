@@ -9,10 +9,14 @@ import javax.faces.bean.ViewScoped;
 
 import com.journal.enumeration.ColorEnum;
 import com.journal.model.User;
+import com.journal.service.PostService;
+import com.journal.util.GrowlUtils;
 
 @ManagedBean
 @ViewScoped
 public class PostEditorBB {
+	
+	private PostService postService = new PostService();
 	
 	private User user;
 	private String postContent;
@@ -32,6 +36,13 @@ public class PostEditorBB {
 		
 		if(!validateFields()) return; 
 		
+		
+		try {
+			postService.sendPost(user, postContent, labelContent, labelColor);
+		} catch (Exception e) {
+			e.printStackTrace();
+			GrowlUtils.addErrorMessage("Send Post Error", "We have a problem to send your post. Please contact the System Administrator.");
+		}
 		
 	}
 	
