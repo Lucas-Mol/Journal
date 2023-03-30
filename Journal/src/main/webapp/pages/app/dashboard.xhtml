@@ -13,16 +13,23 @@
 		<p:growl id="growl-alert" showDetail="true" sticky="false">
 			<p:autoUpdate />
 		</p:growl>
-		
-		<div class="dashboard-grid">
-			<div>
-				<ui:include src="/components/post-editor.xhtml">
-					<ui:param name="postEditorBB" value="#{dashboardMB.postEditorBB}"/>
-					<ui:param name="editorMode" value="insert-mode"/>
-				</ui:include>
-			</div>
+
+
+		<div>
+			<ui:include src="/components/post-editor.xhtml">
+				<ui:param name="postEditorBB" value="#{dashboardMB.postEditorBB}" />
+				<ui:param name="editorMode" value="insert-mode" />
+			</ui:include>
 		</div>
-	
+
+
+		<div>
+			<ui:include src="/components/post-datascroller.xhtml">
+				<ui:param name="postDataScrollerBB" value="#{dashboardMB.postDataScrollerBB}" />
+			</ui:include>
+		</div>
+
+
 
 	</ui:define>
 </ui:composition>
