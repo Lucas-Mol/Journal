@@ -53,7 +53,7 @@ public class SessionMB {
 			}
 		};
 		
-		scheduler.schedule(attemptCleaner, 1, TimeUnit.MINUTES);	
+		scheduler.schedule(attemptCleaner, 30, TimeUnit.MINUTES);	
 	}
 	
 	public static String randomizeHexColor() {
