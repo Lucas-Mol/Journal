@@ -1,0 +1,31 @@
+<ui:composition	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+
+<composite:interface>
+	<composite:attribute name="postDataScrollerBB" required="true"
+		type="com.journal.controller.backingBean.PostDataScrollerBB"/>
+</composite:interface>
+
+<composite:implementation>
+	
+	<h:form>
+		<h:panelGroup styleClass="post-datascroller__filter-header">
+			<div>
+				<h:outputText value="Filter: " />
+			</div>
+			<div class="post-datascroller__refresh-div">
+				<p:commandButton styleClass="post-datascroller__refresh-button" icon=" pi pi-refresh" value=""/>
+			</div>
+		</h:panelGroup>
+		
+		
+	</h:form>
+	
+</composite:implementation>
+	
+</ui:composition>
