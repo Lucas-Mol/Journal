@@ -887,6 +887,22 @@ body .ui-state-highlight {
 	color: #E2E2E2 !important;
 }
 
+/* PostDatScroller */
+
+.post-datascroller__filter-header {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between; 
+}
+
+.post-datascroller__refresh-div .ui-button {
+	background: none !important;
+	border: none;
+	height: 40px;
+	width: 40px;
+}
+
 ::-webkit-scrollbar {
   width: 11px;
 }
