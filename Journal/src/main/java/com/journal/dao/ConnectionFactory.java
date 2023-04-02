@@ -6,9 +6,9 @@ import javax.persistence.Persistence;
 
 public class ConnectionFactory {
 		
-		private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("journal");
+		private EntityManagerFactory factory = Persistence.createEntityManagerFactory("journal");
 		
-		public static EntityManager getEntityManager() {
+		public EntityManager getEntityManager() {
 			
 			return factory.createEntityManager();
 		}

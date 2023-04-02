@@ -15,6 +15,7 @@ import com.journal.model.User_;
 
 public class UserDAO {
 
+	private ConnectionFactory connectionFactory = new ConnectionFactory();
 	private EntityManager manager;
 	
 	private CriteriaBuilder builder;
@@ -24,7 +25,7 @@ public class UserDAO {
 
 	
 	public User findByUsernameOrEmail(String login) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		builder = manager.getCriteriaBuilder();
 		query = builder.createQuery(User.class);
 		rootUser = query.from(User.class);
@@ -44,7 +45,7 @@ public class UserDAO {
 	}
 	
 	public User find(User user) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		builder = manager.getCriteriaBuilder();
 		query = builder.createQuery(User.class);
 		rootUser = query.from(User.class);
@@ -58,7 +59,7 @@ public class UserDAO {
 	}
 	
 	public User insert(User user) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
 				
 		transaction.begin();
@@ -70,7 +71,7 @@ public class UserDAO {
 	}
 	
 	public User edit(User user) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
 				
 		transaction.begin();
@@ -82,7 +83,7 @@ public class UserDAO {
 	}
 	
 	public int remove(User user) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		manager.getTransaction().begin();
 		builder = manager.getCriteriaBuilder();
 		CriteriaDelete<User> deleteQuery = builder.createCriteriaDelete(User.class);
@@ -100,7 +101,7 @@ public class UserDAO {
 	}
 	
 	public boolean existUsername(String username) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		builder = manager.getCriteriaBuilder();
 		count = builder.createQuery(Long.class);
 		rootUser = count.from(User.class);
@@ -115,7 +116,7 @@ public class UserDAO {
 	}
 	
 	public boolean existEmail(String email) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		builder = manager.getCriteriaBuilder();
 		count = builder.createQuery(Long.class);
 		rootUser = count.from(User.class);

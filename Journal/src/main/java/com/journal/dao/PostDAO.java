@@ -16,6 +16,7 @@ import com.journal.model.User_;
 
 public class PostDAO {
 
+	private ConnectionFactory connectionFactory = new ConnectionFactory();
 	private EntityManager manager;
 	
 	private CriteriaBuilder builder;
@@ -24,7 +25,7 @@ public class PostDAO {
 	private Root<Post> rootPost;
 	
 	public Post find(User user) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		builder = manager.getCriteriaBuilder();
 		query = builder.createQuery(Post.class);
 		rootPost = query.from(Post.class);
@@ -38,7 +39,7 @@ public class PostDAO {
 	}
 	
 	public Post insert(Post post) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
 				
 		transaction.begin();
@@ -50,7 +51,7 @@ public class PostDAO {
 	}
 	
 	public Post edit(Post post) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
 				
 		transaction.begin();
@@ -62,7 +63,7 @@ public class PostDAO {
 	}
 	
 	public int remove(Post post) {
-		manager = ConnectionFactory.getEntityManager();
+		manager = connectionFactory.getEntityManager();
 		manager.getTransaction().begin();
 		builder = manager.getCriteriaBuilder();
 		CriteriaDelete<Post> deleteQuery = builder.createCriteriaDelete(Post.class);

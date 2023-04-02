@@ -11,7 +11,9 @@ public class ConnectionFactoryTest {
 	@Test
 	public void testConnection() {
 		
-		EntityManager manager = ConnectionFactory.getEntityManager();
+		ConnectionFactory connectionFactory = new ConnectionFactory();
+		
+		EntityManager manager = connectionFactory.getEntityManager();
 		
 		assertTrue(manager != null);
 	}
