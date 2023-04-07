@@ -1,6 +1,7 @@
 package com.journal.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.journal.dao.PostDAO;
 import com.journal.enumeration.ColorEnum;
@@ -30,6 +31,12 @@ public class PostService {
 			postDAO.insert(post);		
 		}
 	}
-
-
+	
+	public List<Post> findPosts(User user, Label label, Integer first, Integer pageSize) {
+		return postDAO.findByUserLabel(user, label, first, pageSize);
+	}
+	
+	public Long countPosts(User user, Label label) {
+		return postDAO.countPosts(user, label);
+	}
 }
