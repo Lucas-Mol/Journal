@@ -2,10 +2,10 @@ package com.journal.enumeration;
 
 public enum ColorEnum {
 	
-	RED(1, "#A50F69"),
-	GREEN(2,"#444725"),
-	BLUE(3, "#1E9AFF"),
-	YELLOW(4, "#FFE600");
+	RED(0, "#A50F69"),
+	GREEN(1,"#444725"),
+	BLUE(2, "#1E9AFF"),
+	YELLOW(3, "#FFE600");
 
 	private Integer id;
 	private String color;
@@ -32,7 +32,7 @@ public enum ColorEnum {
 	}
 
 
-	public static ColorEnum getStatusIntimacaoById(Integer id) {
+	public static ColorEnum getColorById(Integer id) {
 		for (ColorEnum labelColor: ColorEnum.values()) {
 			if (id.equals(labelColor.getId())) {
 				return labelColor;
