@@ -15,13 +15,29 @@
 	
 	<h:form>
 		<h:panelGroup styleClass="post-datascroller__filter-header">
-			<div>
-				<h:outputText value="Filter: " />
+			<div class="post-datascroller__filter-div">
+				<h:outputText styleClass="filter-text" value="Filter: " />
+				<p:inputText placeholder="Label" value="#{postDataScrollerBB.labelFilter}" />
 			</div>
 			<div class="post-datascroller__refresh-div">
 				<p:commandButton styleClass="post-datascroller__refresh-button" icon=" pi pi-refresh" value=""/>
 			</div>
 		</h:panelGroup>
+		
+		<p:dataScroller 
+							value="#{postDataScrollerBB.lsPosts}"
+							var="post" lazy="true" id="postList"
+							chunkSize="6" rowIndexVar="line" buffer="30">
+
+			<h:panelGroup styleClass="post-datascroller__post-card">
+				<ui:include src="/components/post-card.xhtml">
+					<ui:param name="postDataScrollerBB" value="#{postDataScrollerBB}" />
+					<ui:param name="post" value="#{post}" />
+				</ui:include>
+			</h:panelGroup>
+
+
+		</p:dataScroller>
 		
 		
 	</h:form>
