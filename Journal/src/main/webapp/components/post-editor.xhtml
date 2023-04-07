@@ -34,7 +34,7 @@
 		
 		<h:panelGroup styleClass="post-editor-form__block-three">
 			<p:selectOneMenu styleClass="post-editor__input-label-color" value="#{postEditorBB.labelColor}">
-				<f:selectItem noSelectionOption="true" itemLabel="Label Color" itemValue="0" />
+				<f:selectItem noSelectionOption="true" itemLabel="Label Color" itemValue="null" />
 				<f:selectItems value="#{postEditorBB.lsColorEnum}"
 				var="color" itemLabel="#{color.name()}" itemValue="#{color.id}"/>
 			</p:selectOneMenu> 

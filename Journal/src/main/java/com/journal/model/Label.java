@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,8 +27,9 @@ public class Label implements Serializable{
 	@Column(name = "name")
 	private String name;
 	
+	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "color")
-	private int color;
+	private ColorEnum color;
 
 	public int getId() {
 		return id;
@@ -45,11 +48,11 @@ public class Label implements Serializable{
 	}
 	
 	public ColorEnum getColor() {
-		return ColorEnum.getStatusIntimacaoById(color);
+		return color;
 	}
 	
-	public void setColor(int color) {
-		this.color = color;
+	public void setColor(ColorEnum colorEnum) {
+		this.color = colorEnum;
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class PostEditorBB {
 	private User user;
 	private String postContent;
 	private String labelContent;
-	private int labelColor;
+	private Integer labelColor;
 	
 	private List<ColorEnum> lsColorEnum;
 	
@@ -80,11 +80,11 @@ public class PostEditorBB {
 		this.labelContent = labelContent;
 	}
 
-	public int getLabelColor() {
+	public Integer getLabelColor() {
 		return labelColor;
 	}
 
-	public void setLabelColor(int labelColor) {
+	public void setLabelColor(Integer labelColor) {
 		this.labelColor = labelColor;
 	}
 
