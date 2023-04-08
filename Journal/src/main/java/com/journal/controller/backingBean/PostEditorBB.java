@@ -52,11 +52,11 @@ public class PostEditorBB {
 			return false;
 		}
 		if((this.labelContent != null && !this.labelContent.isEmpty())
-				&& this.labelColor == 0) {
+				&& this.labelColor == null) {
 			GrowlUtils.addErrorMessage("Label Color", "The 'Label Color' field is required if 'Label' field was filled");
 			return false;
 		}
-		if(this.labelColor != 0 &&
+		if(this.labelColor != null &&
 				(this.labelContent == null || this.labelContent.isEmpty())) {
 			GrowlUtils.addErrorMessage("Label", "The 'Label' field is required if 'Label Color' field was filled");
 			return false;
