@@ -85,6 +85,7 @@ public class PostDAO {
 	public Post insert(Post post) {
 		manager = connectionFactory.getEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
+		post = manager.merge(post);
 				
 		transaction.begin();
 		manager.persist(post);
