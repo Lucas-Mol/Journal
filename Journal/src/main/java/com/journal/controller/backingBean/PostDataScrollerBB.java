@@ -6,11 +6,11 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
-import com.journal.enumeration.ColorEnum;
 import com.journal.model.Label;
 import com.journal.model.Post;
 import com.journal.model.User;
@@ -54,6 +54,13 @@ public class PostDataScrollerBB {
 				return postService.countPosts(user, label).intValue();
 			}
 		};
+	}
+	
+	//TODO: use Label class
+	public void updatePosts() {
+		System.out.println("dando update");
+		searchPosts(user, null);
+		PrimeFaces.current().ajax().update("post-datascroller-form:postList");
 	}
 
 	public String getLabelFilter() {
