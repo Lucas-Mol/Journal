@@ -19,14 +19,17 @@ public class PostEditorBB {
 	private PostService postService = new PostService();
 	
 	private User user;
+	private PostDataScrollerBB postDataScrollerBB;
+	
 	private String postContent;
 	private String labelContent;
 	private Integer labelColor;
 	
 	private List<ColorEnum> lsColorEnum;
 	
-	public PostEditorBB (User user) {
+	public PostEditorBB (User user, PostDataScrollerBB postDataScrollerBB) {
 		this.user = user;
+		this.postDataScrollerBB = postDataScrollerBB;
 		
 		setLsColorEnum(Arrays.stream(ColorEnum.values())
                 .collect(Collectors.toList()));
@@ -39,6 +42,8 @@ public class PostEditorBB {
 		
 		try {
 			postService.sendPost(user, postContent, labelContent, labelColor);
+			
+			postDataScrollerBB.updatePosts();
 		} catch (Exception e) {
 			e.printStackTrace();
 			GrowlUtils.addErrorMessage("Send Post Error", "We have a problem to send your post. Please contact the System Administrator.");
