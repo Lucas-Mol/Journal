@@ -19,8 +19,8 @@ public class DashboardMB {
 	private PostDataScrollerBB postDataScrollerBB;
 	
 	public void init() {
-		postEditorBB = new PostEditorBB(user);
 		postDataScrollerBB = new PostDataScrollerBB(user);
+		postEditorBB = new PostEditorBB(user, postDataScrollerBB);
 	}
 
 	public User getUser() {
