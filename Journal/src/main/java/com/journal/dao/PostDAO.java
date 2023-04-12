@@ -10,11 +10,13 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.journal.model.Label;
+import com.journal.model.Label_;
 import com.journal.model.Post;
 import com.journal.model.Post_;
 import com.journal.model.User;
@@ -82,6 +84,63 @@ public class PostDAO {
 		return manager.createQuery(count).getSingleResult();
 	}
 	
+	public List<Post> findByLabel(Label label) {
+		if(label != null) {
+			manager = connectionFactory.getEntityManager();
+			builder = manager.getCriteriaBuilder();
+			query = builder.createQuery(Post.class);
+			rootPost = query.from(Post.class);
+			
+			query.where(filterByLabel(label));
+			
+			TypedQuery<Post> tq = manager.createQuery(query);
+			
+			List<Post> resultList = tq.getResultList();
+			manager.close();
+			if (!resultList.isEmpty()) return resultList;
+			else return new ArrayList<Post>();		
+		}
+		return new ArrayList<Post>();
+	}
+	
+	public List<Post> findByUserLabelName(User user, String labelName) {
+		if(user != null && labelName != null) {
+			manager = connectionFactory.getEntityManager();
+			builder = manager.getCriteriaBuilder();
+			query = builder.createQuery(Post.class);
+			rootPost = query.from(Post.class);
+			
+			query.where(builder.and(filterByUser(user), filterByLabelName(labelName)));
+			
+			TypedQuery<Post> tq = manager.createQuery(query);
+			
+			List<Post> resultList = tq.getResultList();
+			manager.close();
+			if (!resultList.isEmpty()) return resultList;
+			else return new ArrayList<Post>();		
+		}
+		return new ArrayList<Post>();
+	}
+	
+	public List<Post> findByContent(String postContent) {
+		if(postContent != null) {
+			manager = connectionFactory.getEntityManager();
+			builder = manager.getCriteriaBuilder();
+			query = builder.createQuery(Post.class);
+			rootPost = query.from(Post.class);
+			
+			query.where(builder.equal(rootPost.get(Post_.CONTENT), postContent));
+			
+			TypedQuery<Post> tq = manager.createQuery(query);
+			
+			List<Post> resultList = tq.getResultList();
+			manager.close();
+			if (!resultList.isEmpty()) return resultList;
+			else return new ArrayList<Post>();		
+		}
+		return new ArrayList<Post>();
+	}
+	
 	public Post insert(Post post) {
 		manager = connectionFactory.getEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
@@ -125,12 +184,26 @@ public class PostDAO {
 		return affectedLines;
 	}
 	
+	public int removeList(List<Post> posts) {
+		int affectedLines = 0;
+		for(Post post : posts) {
+			remove(post);
+		}
+
+		return affectedLines;
+	}
+	
 	private Predicate filterByUser(User user) {
 		return builder.equal(rootPost.get(Post_.USER), user.getId());
 	}
 	
 	private Predicate filterByLabel(Label label) {
 		return builder.equal(rootPost.get(Post_.LABEL), label.getId());
+	}
+	
+	private Predicate filterByLabelName(String labelName) {
+		Join<Post, Label> joinLabel = rootPost.join(Post_.LABEL);
+		return builder.like(joinLabel.get(Label_.NAME), "%" + labelName + "%");
 	}
 	
 	private Order orderAsc(){
