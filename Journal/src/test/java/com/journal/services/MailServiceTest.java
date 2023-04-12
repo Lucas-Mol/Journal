@@ -1,13 +1,13 @@
 package com.journal.services;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.journal.model.User;
 import com.journal.service.MailService;

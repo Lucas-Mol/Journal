@@ -1,11 +1,13 @@
 package com.journal.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.persistence.EntityManager;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.annotation.Testable;
 
+@Testable
 public class ConnectionFactoryTest {
 
 	@Test
