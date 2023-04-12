@@ -15,7 +15,7 @@ public class PostService {
 	private PostDAO postDAO = new PostDAO();
 	private LabelDAO labelDAO = new LabelDAO();
 
-	public void sendPost(User user, String postContent, String labelContent, Integer labelColor)  {
+	public Post sendPost(User user, String postContent, String labelContent, Integer labelColor)  {
 		if(user != null) {
 			Label label = new Label();
 			Post post = new Post();
@@ -34,15 +34,46 @@ public class PostService {
 			if(label != null) post.setLabel(label);
 			post.setLatestDate(new Date());
 			
-			postDAO.insert(post);		
+			return postDAO.insert(post);		
 		}
+		return null;
 	}
 	
 	public List<Post> findPosts(User user, Label label, Integer first, Integer pageSize) {
 		return postDAO.findByUserLabel(user, label, first, pageSize);
 	}
 	
+	public List<Post> findByUserLabelName(User user, String labelName) {
+		return postDAO.findByUserLabelName(user, labelName);
+	}
+	
 	public Long countPosts(User user, Label label) {
 		return postDAO.countPosts(user, label);
+	}
+	
+	public Post editPost(Post post) {
+		return postDAO.edit(post);
+	}
+	
+	public int removePost(Post post) {
+		List<Post> postsSameLabel = postDAO.findByLabel(post.getLabel());
+		
+		Integer affectedLines = postDAO.remove(post);
+		postsSameLabel.remove(post);
+		
+		if(postsSameLabel.isEmpty()) {
+			affectedLines += labelDAO.remove(post.getLabel());
+		}
+		
+		return affectedLines;
+	}
+	
+	public int removePostList(List<Post> posts) {
+		Integer affectedLines = 0;
+		for(Post post : posts) {
+			affectedLines += removePost(post);	
+		}
+		
+		return affectedLines;
 	}
 }
