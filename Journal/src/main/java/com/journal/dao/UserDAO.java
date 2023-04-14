@@ -1,5 +1,8 @@
 package com.journal.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -12,6 +15,7 @@ import javax.persistence.criteria.Root;
 
 import com.journal.model.User;
 import com.journal.model.User_;
+
 
 public class UserDAO {
 
@@ -58,6 +62,25 @@ public class UserDAO {
 	    return result;
 	}
 	
+	public List<User> findListByUsername(String username) {
+		if(username != null) {
+			manager = connectionFactory.getEntityManager();
+			builder = manager.getCriteriaBuilder();
+			query = builder.createQuery(User.class);
+			rootUser = query.from(User.class);
+			
+			query.where(filterLikeUsername(username));
+			
+			TypedQuery<User> tq = manager.createQuery(query);
+			
+			List<User> resultList = tq.getResultList();
+			manager.close();
+			if (!resultList.isEmpty()) return resultList;
+			else return new ArrayList<User>();		
+		}
+		return new ArrayList<User>();
+	}
+	
 	public User insert(User user) {
 		manager = connectionFactory.getEntityManager();
 		EntityTransaction transaction = manager.getTransaction();
@@ -100,6 +123,16 @@ public class UserDAO {
 		return affectedLines;
 	}
 	
+	public int removeList(List<User> users) {
+		int affectedLines = 0;
+
+		for(User user : users) {
+			affectedLines += remove(user);
+		}
+		
+		return affectedLines;
+	}
+	
 	public boolean existUsername(String username) {
 		manager = connectionFactory.getEntityManager();
 		builder = manager.getCriteriaBuilder();
@@ -133,6 +166,10 @@ public class UserDAO {
 	
 	private Predicate filterByUsername(String username) {
 		return builder.like(builder.lower(rootUser.get(User_.USERNAME)), username.toLowerCase());
+	}
+	
+	private Predicate filterLikeUsername(String username) {
+		return builder.like(builder.lower(rootUser.get(User_.USERNAME)), "%" + username.toLowerCase() + "%");
 	}
 	
 	private Predicate filterByEmail(String email) {
