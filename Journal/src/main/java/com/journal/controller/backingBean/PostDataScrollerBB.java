@@ -15,6 +15,7 @@ import com.journal.model.Label;
 import com.journal.model.Post;
 import com.journal.model.User;
 import com.journal.service.PostService;
+import com.journal.util.GrowlUtils;
 
 @ManagedBean
 @ViewScoped
@@ -61,6 +62,18 @@ public class PostDataScrollerBB {
 		System.out.println("dando update");
 		searchPosts(user, null);
 		PrimeFaces.current().ajax().update("post-datascroller-form:postList");
+	}
+	
+	public void removePost(Post post) {
+		int affectedLines = 0;
+		try {
+			affectedLines += postService.removePost(post);
+		} catch (Exception e) {
+			e.printStackTrace();
+			GrowlUtils.addErrorMessage("Failed", "Sorry :( The action failed");
+		}
+		
+		if(affectedLines > 0) updatePosts();
 	}
 
 	public String getLabelFilter() {
