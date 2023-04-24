@@ -17,10 +17,11 @@ public class PostService {
 
 	public Post sendPost(User user, String postContent, String labelContent, Integer labelColor)  {
 		if(user != null) {
-			Label label = new Label();
+			Label label = null;
 			Post post = new Post();
 			
 			if(labelContent != null && !labelContent.isEmpty() && labelColor != null) {
+				label = new Label();
 				label.setName(labelContent);
 				label.setColor(ColorEnum.getColorById(labelColor));
 				
@@ -56,12 +57,13 @@ public class PostService {
 	}
 	
 	public int removePost(Post post) {
-		List<Post> postsSameLabel = postDAO.findByLabel(post.getLabel());
-		
+		List<Post> postsSameLabel = null;
+		if(post.getLabel() != null) postsSameLabel = postDAO.findByLabel(post.getLabel());
+
 		Integer affectedLines = postDAO.remove(post);
-		postsSameLabel.remove(post);
 		
-		if(postsSameLabel.isEmpty()) {
+		if(postsSameLabel != null && postsSameLabel.isEmpty()) {
+			postsSameLabel.remove(post);
 			affectedLines += labelDAO.remove(post.getLabel());
 		}
 		
