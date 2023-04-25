@@ -6,11 +6,19 @@ import javax.persistence.Persistence;
 
 public class ConnectionFactory {
 		
-		private EntityManagerFactory factory = Persistence.createEntityManagerFactory("journal");
+		private EntityManagerFactory factory;
+		
+		public ConnectionFactory() {
+			factory = Persistence.createEntityManagerFactory("journal");
+		}
 		
 		public EntityManager getEntityManager() {
-			
 			return factory.createEntityManager();
 		}
+		
+		public void close() {
+			factory.close();
+		}
+
 
 }

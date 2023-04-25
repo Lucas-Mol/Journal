@@ -23,13 +23,41 @@ import com.journal.model.User;
 
 public class PostDAO {
 
-	private ConnectionFactory connectionFactory = new ConnectionFactory();
+	private ConnectionFactory connectionFactory;
 	private EntityManager manager;
 	
 	private CriteriaBuilder builder;
 	private CriteriaQuery<Post> query;
 	private CriteriaQuery<Long> count;
 	private Root<Post> rootPost;
+	
+	private void initializeDefaultManagers() {
+		connectionFactory = new ConnectionFactory();
+		manager = connectionFactory.getEntityManager();
+		builder = manager.getCriteriaBuilder();
+		query = builder.createQuery(Post.class);
+		rootPost = query.from(Post.class);
+	}
+	
+	private void intializeCountManagers() {
+		connectionFactory = new ConnectionFactory();
+        manager = connectionFactory.getEntityManager();
+        builder = manager.getCriteriaBuilder();
+        count = builder.createQuery(Long.class);
+        rootPost = count.from(Post.class);
+	}
+	
+	private CriteriaDelete<Post> initializeDeleteQuery() {
+		CriteriaDelete<Post> deleteQuery = builder.createCriteriaDelete(Post.class);
+		rootPost = deleteQuery.from(Post.class);
+		return deleteQuery;
+	}
+	
+	private EntityTransaction initializeTransaction() {
+		connectionFactory = new ConnectionFactory();
+		manager = connectionFactory.getEntityManager();
+		return manager.getTransaction();
+	}
 	
 	public List<Post> findByUser(User user) {
 	    return findByUserLabel(user, null, null, null);
@@ -40,10 +68,7 @@ public class PostDAO {
 	}
 	
 	public List<Post> findByUserLabel(User user, Label label, Integer first, Integer pageSize) {
-		manager = connectionFactory.getEntityManager();
-		builder = manager.getCriteriaBuilder();
-		query = builder.createQuery(Post.class);
-		rootPost = query.from(Post.class);
+		initializeDefaultManagers();
 		
 		Predicate restrictions = null;
 		if(label != null)
@@ -62,15 +87,13 @@ public class PostDAO {
 
 		List<Post> resultList = tq.getResultList();
 		manager.close();
+		connectionFactory.close();
 		if (!resultList.isEmpty()) return resultList;
 		else return new ArrayList<Post>();
 	}
 	
 	public Long countPosts(User user, Label label) {
-		manager = connectionFactory.getEntityManager();
-		builder = manager.getCriteriaBuilder();
-		count = builder.createQuery(Long.class);
-		rootPost = count.from(Post.class);
+		intializeCountManagers();
 		
 		Predicate restrictions = null;
 		if(label != null)
@@ -81,15 +104,17 @@ public class PostDAO {
 		count.where(restrictions).distinct(true);
 		count.select(builder.countDistinct(rootPost));
 		
-		return manager.createQuery(count).getSingleResult();
+		Long result = manager.createQuery(count).getSingleResult();
+		
+		manager.close();
+		connectionFactory.close();
+		
+		return result;
 	}
 	
 	public List<Post> findByLabel(Label label) {
 		if(label != null) {
-			manager = connectionFactory.getEntityManager();
-			builder = manager.getCriteriaBuilder();
-			query = builder.createQuery(Post.class);
-			rootPost = query.from(Post.class);
+			initializeDefaultManagers();
 			
 			query.where(filterByLabel(label));
 			
@@ -97,6 +122,7 @@ public class PostDAO {
 			
 			List<Post> resultList = tq.getResultList();
 			manager.close();
+			connectionFactory.close();
 			if (!resultList.isEmpty()) return resultList;
 			else return new ArrayList<Post>();		
 		}
@@ -105,10 +131,7 @@ public class PostDAO {
 	
 	public List<Post> findByUserLabelName(User user, String labelName) {
 		if(user != null && labelName != null) {
-			manager = connectionFactory.getEntityManager();
-			builder = manager.getCriteriaBuilder();
-			query = builder.createQuery(Post.class);
-			rootPost = query.from(Post.class);
+			initializeDefaultManagers();
 			
 			query.where(builder.and(filterByUser(user), filterByLabelName(labelName)));
 			
@@ -116,6 +139,7 @@ public class PostDAO {
 			
 			List<Post> resultList = tq.getResultList();
 			manager.close();
+			connectionFactory.close();
 			if (!resultList.isEmpty()) return resultList;
 			else return new ArrayList<Post>();		
 		}
@@ -124,10 +148,7 @@ public class PostDAO {
 	
 	public List<Post> findByContent(String postContent) {
 		if(postContent != null) {
-			manager = connectionFactory.getEntityManager();
-			builder = manager.getCriteriaBuilder();
-			query = builder.createQuery(Post.class);
-			rootPost = query.from(Post.class);
+			initializeDefaultManagers();
 			
 			query.where(builder.equal(rootPost.get(Post_.CONTENT), postContent));
 			
@@ -135,6 +156,7 @@ public class PostDAO {
 			
 			List<Post> resultList = tq.getResultList();
 			manager.close();
+			connectionFactory.close();
 			if (!resultList.isEmpty()) return resultList;
 			else return new ArrayList<Post>();		
 		}
@@ -142,8 +164,7 @@ public class PostDAO {
 	}
 	
 	public Post insert(Post post) {
-		manager = connectionFactory.getEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
+		EntityTransaction transaction = initializeTransaction();
 		post = manager.merge(post);
 				
 		transaction.begin();
@@ -151,35 +172,36 @@ public class PostDAO {
 		transaction.commit();
 		
 		manager.close();
+		connectionFactory.close();
 		return post;
 	}
 	
 	public Post edit(Post post) {
-		manager = connectionFactory.getEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
+		EntityTransaction transaction = initializeTransaction();
 				
 		transaction.begin();
 		manager.merge(post);
 		transaction.commit();
 		
 		manager.close();
+		connectionFactory.close();
 		return post;
 	}
 	
 	public int remove(Post post) {
-		manager = connectionFactory.getEntityManager();
-		manager.getTransaction().begin();
-		builder = manager.getCriteriaBuilder();
-		CriteriaDelete<Post> deleteQuery = builder.createCriteriaDelete(Post.class);
-		rootPost = deleteQuery.from(Post.class);
+		initializeDefaultManagers();
+		EntityTransaction transaction = manager.getTransaction();
+		CriteriaDelete<Post> deleteQuery = initializeDeleteQuery();
 		
+		transaction.begin();
 		deleteQuery.where(builder.equal(rootPost.get(Post_.ID), post.getId()));
 		
 		Query query = manager.createQuery(deleteQuery);
 		
 		int affectedLines = query.executeUpdate();
-		manager.getTransaction().commit();
+		transaction.commit();
 		manager.close();
+		connectionFactory.close();
 
 		return affectedLines;
 	}

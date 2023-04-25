@@ -19,20 +19,45 @@ import com.journal.model.User_;
 
 public class UserDAO {
 
-	private ConnectionFactory connectionFactory = new ConnectionFactory();
+	private ConnectionFactory connectionFactory;
 	private EntityManager manager;
 	
 	private CriteriaBuilder builder;
 	private CriteriaQuery<User> query;
 	private CriteriaQuery<Long> count;
 	private Root<User> rootUser;
-
 	
-	public User findByUsernameOrEmail(String login) {
+
+	private void initializeDefaultManagers() {
+		connectionFactory = new ConnectionFactory();
 		manager = connectionFactory.getEntityManager();
 		builder = manager.getCriteriaBuilder();
 		query = builder.createQuery(User.class);
 		rootUser = query.from(User.class);
+	}
+	
+	private void initializeCountManagers() {
+		connectionFactory = new ConnectionFactory();
+		manager = connectionFactory.getEntityManager();
+		builder = manager.getCriteriaBuilder();
+		count = builder.createQuery(Long.class);
+		rootUser = count.from(User.class);
+	}
+	
+	private EntityTransaction initializeTransaction() {
+		connectionFactory = new ConnectionFactory();
+		manager = connectionFactory.getEntityManager();
+		return manager.getTransaction();
+	}
+	
+	private CriteriaDelete<User> initializeDeleteQuery() {
+		CriteriaDelete<User> deleteQuery = builder.createCriteriaDelete(User.class);
+		rootUser = deleteQuery.from(User.class);
+		return deleteQuery;
+	}
+	
+	public User findByUsernameOrEmail(String login) {
+		initializeDefaultManagers();
 		
 		Predicate restrictions = builder.or(filterByUsername(login), filterByEmail(login));
 		
@@ -42,6 +67,7 @@ public class UserDAO {
 		try {
 			User userResult = tq.getResultList().get(0);
 			manager.close();
+			connectionFactory.close();
 			return userResult;
 		} catch (IndexOutOfBoundsException ex) {
 			return null;
@@ -49,25 +75,20 @@ public class UserDAO {
 	}
 	
 	public User find(User user) {
-		manager = connectionFactory.getEntityManager();
-		builder = manager.getCriteriaBuilder();
-		query = builder.createQuery(User.class);
-		rootUser = query.from(User.class);
+		initializeDefaultManagers();
 		
 		query.where(builder.equal(rootUser.get(User_.ID), user.getId()));
 
 	    TypedQuery<User> tq = manager.createQuery(query);
 	    User result = tq.getSingleResult();
 	    manager.close();
+	    connectionFactory.close();
 	    return result;
 	}
 	
 	public List<User> findListByUsername(String username) {
 		if(username != null) {
-			manager = connectionFactory.getEntityManager();
-			builder = manager.getCriteriaBuilder();
-			query = builder.createQuery(User.class);
-			rootUser = query.from(User.class);
+			initializeDefaultManagers();
 			
 			query.where(filterLikeUsername(username));
 			
@@ -75,6 +96,7 @@ public class UserDAO {
 			
 			List<User> resultList = tq.getResultList();
 			manager.close();
+			connectionFactory.close();
 			if (!resultList.isEmpty()) return resultList;
 			else return new ArrayList<User>();		
 		}
@@ -82,43 +104,44 @@ public class UserDAO {
 	}
 	
 	public User insert(User user) {
-		manager = connectionFactory.getEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
+		EntityTransaction transaction = initializeTransaction();
 				
 		transaction.begin();
 		manager.persist(user);
 		transaction.commit();
 		
 		manager.close();
+		connectionFactory.close();
 		return user;
 	}
 	
 	public User edit(User user) {
-		manager = connectionFactory.getEntityManager();
-		EntityTransaction transaction = manager.getTransaction();
+		EntityTransaction transaction = initializeTransaction();
 				
 		transaction.begin();
 		manager.merge(user);
 		transaction.commit();
 		
 		manager.close();
+		connectionFactory.close();
 		return user;
 	}
 	
 	public int remove(User user) {
-		manager = connectionFactory.getEntityManager();
-		manager.getTransaction().begin();
-		builder = manager.getCriteriaBuilder();
-		CriteriaDelete<User> deleteQuery = builder.createCriteriaDelete(User.class);
-		rootUser = deleteQuery.from(User.class);
+		initializeDefaultManagers();
+		EntityTransaction transaction = manager.getTransaction();
+		CriteriaDelete<User> deleteQuery = initializeDeleteQuery();
 		
+		
+		transaction.begin();
 		deleteQuery.where(builder.equal(rootUser.get(User_.ID), user.getId()));
 		
 		Query query = manager.createQuery(deleteQuery);
 		
 		int affectedLines = query.executeUpdate();
-		manager.getTransaction().commit();
+		transaction.commit();
 		manager.close();
+		connectionFactory.close();
 
 		return affectedLines;
 	}
@@ -134,10 +157,7 @@ public class UserDAO {
 	}
 	
 	public boolean existUsername(String username) {
-		manager = connectionFactory.getEntityManager();
-		builder = manager.getCriteriaBuilder();
-		count = builder.createQuery(Long.class);
-		rootUser = count.from(User.class);
+		initializeCountManagers();
 		
 		count.where(filterByUsername(username));
 		count.select(builder.count(rootUser));
@@ -145,14 +165,12 @@ public class UserDAO {
 		boolean result = manager.createQuery(count).getSingleResult() > 0;
 		
 		manager.close();
+		connectionFactory.close();
 		return result;
 	}
 	
 	public boolean existEmail(String email) {
-		manager = connectionFactory.getEntityManager();
-		builder = manager.getCriteriaBuilder();
-		count = builder.createQuery(Long.class);
-		rootUser = count.from(User.class);
+		initializeCountManagers();
 		
 		count.where(filterByEmail(email));
 		count.select(builder.count(rootUser));
@@ -160,6 +178,7 @@ public class UserDAO {
 		boolean result = manager.createQuery(count).getSingleResult() > 0;
 		
 		manager.close();
+		connectionFactory.close();
 		return result;
 
 	}
