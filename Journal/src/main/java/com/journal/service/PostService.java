@@ -1,11 +1,8 @@
 package com.journal.service;
 
-import java.util.Date;
 import java.util.List;
 
-import com.journal.dao.LabelDAO;
 import com.journal.dao.PostDAO;
-import com.journal.enumeration.ColorEnum;
 import com.journal.model.Label;
 import com.journal.model.Post;
 import com.journal.model.User;
@@ -13,31 +10,14 @@ import com.journal.model.User;
 public class PostService {
 
 	private PostDAO postDAO = new PostDAO();
-	private LabelDAO labelDAO = new LabelDAO();
+	private LabelService labelService;
 
-	public Post sendPost(User user, String postContent, String labelContent, Integer labelColor)  {
-		if(user != null) {
-			Label label = null;
-			Post post = new Post();
-			
-			if(labelContent != null && !labelContent.isEmpty() && labelColor != null) {
-				label = new Label();
-				label.setName(labelContent);
-				label.setColor(ColorEnum.getColorById(labelColor));
-				
-				//if label already persisted
-				Label persistedLabel = labelDAO.findByNameColor(label);
-				if(persistedLabel != null) label = persistedLabel;
-			}
-			
-			post.setUser(user);
-			post.setContent(postContent);
-			if(label != null) post.setLabel(label);
-			post.setLatestDate(new Date());
-			
-			return postDAO.insert(post);		
-		}
-		return null;
+	public Post sendPost(Post post)  {
+		labelService = new LabelService();
+		if(post.getLabel() != null)
+			post.setLabel(labelService.insertLabel(post.getLabel()));
+		
+		return postDAO.insert(post);		
 	}
 	
 	public List<Post> findPosts(User user, Label label, Integer first, Integer pageSize) {
@@ -46,6 +26,10 @@ public class PostService {
 	
 	public List<Post> findByUserLabelName(User user, String labelName) {
 		return postDAO.findByUserLabelName(user, labelName);
+	}
+	
+	public List<Post> findByLabel(Label label) {
+		return postDAO.findByLabel(label);
 	}
 	
 	public Long countPosts(User user, Label label) {
@@ -57,15 +41,10 @@ public class PostService {
 	}
 	
 	public int removePost(Post post) {
-		List<Post> postsSameLabel = null;
-		if(post.getLabel() != null) postsSameLabel = postDAO.findByLabel(post.getLabel());
-
+		Label usedLabel = post.getLabel();
 		Integer affectedLines = postDAO.remove(post);
 		
-		if(postsSameLabel != null && postsSameLabel.isEmpty()) {
-			postsSameLabel.remove(post);
-			affectedLines += labelDAO.remove(post.getLabel());
-		}
+		affectedLines += labelService.removeIfNotUsed(usedLabel);
 		
 		return affectedLines;
 	}
