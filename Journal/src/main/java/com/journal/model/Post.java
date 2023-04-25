@@ -37,6 +37,16 @@ public class Post implements Serializable{
 	@JoinColumn(name = "fk_label")
 	private Label label;
 	
+	public Post(){}	
+	
+	public Post(String content, User user, Label label) {
+		super();
+		this.content = content;
+		this.latestDate = new Date();
+		this.user = user;
+		this.label = label;
+	}
+
 	public int getId() {
 		return id;
 	}

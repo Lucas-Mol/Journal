@@ -1,6 +1,7 @@
 package com.journal.controller.backingBean;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,9 +9,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import com.journal.enumeration.ColorEnum;
+import com.journal.model.Label;
+import com.journal.model.Post;
 import com.journal.model.User;
 import com.journal.service.PostService;
 import com.journal.util.GrowlUtils;
+
 
 @ManagedBean
 @ViewScoped
@@ -39,9 +43,10 @@ public class PostEditorBB {
 		
 		if(!validateFields()) return; 
 		
-		
 		try {
-			postService.sendPost(user, postContent, labelContent, labelColor);
+			Label label = new Label(labelContent, ColorEnum.getColorById(labelColor));
+			Post post = new Post(postContent, user, label);
+			postService.sendPost(post);
 			
 			postDataScrollerBB.updatePosts();
 		} catch (Exception e) {

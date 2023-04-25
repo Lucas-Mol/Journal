@@ -30,6 +30,14 @@ public class Label implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "color")
 	private ColorEnum color;
+	
+	public Label() {}
+
+	public Label(String name, ColorEnum color) {
+		super();
+		this.name = name;
+		this.color = color;
+	}
 
 	public int getId() {
 		return id;
