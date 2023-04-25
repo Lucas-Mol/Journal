@@ -19,9 +19,11 @@
 		<div class="post-card__main-div">
 			<div class="post-card__grid">
 				<div class="post-card__content-section">
-					<div class="post-card__label-div" style="background-color: #{post.label.color.color};">
+					<h:panelGroup class="post-card__label-div" 
+									style="background-color: #{post.label.color.color};"
+									rendered="#{post.label != null}">
 						<h:outputText value="#{post.label.name}" />
-					</div>
+					</h:panelGroup>
 					
 					<div class="post-card__content-div">
 						<h:outputText escape="false" value="#{post.content}" />
