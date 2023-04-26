@@ -15,6 +15,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import com.journal.dao.UserDAO;
 import com.journal.enumeration.ColorEnum;
+import com.journal.model.Label;
 import com.journal.model.Post;
 import com.journal.model.User;
 import com.journal.service.PostService;
@@ -44,7 +45,7 @@ public class PostServiceTest {
 	
 	final String CURRENT_DATE = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now());
 
-	final Integer COLOR_ID = ColorEnum.RED.getId();
+	final ColorEnum COLOR_ENUM = ColorEnum.RED;
 	
 	 @BeforeAll
 	    public void setupLabelNames() {
@@ -55,48 +56,49 @@ public class PostServiceTest {
 	    }
 
 	@Test
-	public void testSendPostNewLabel() {	
-		Post sentPost = postService.sendPost(user, POST_CONTENT_TO_NEW_LABEL, NEW_LABEL_NAME, COLOR_ID);
+	public void testSendPostNewLabel() {
+		Label newLabel = new Label(NEW_LABEL_NAME, COLOR_ENUM);
+		Post sentPost = postService.sendPost(new Post(POST_CONTENT_TO_NEW_LABEL, user, newLabel));
 
 		assertTrue(sentPost != null 
 				&& sentPost.getContent().equals(POST_CONTENT_TO_NEW_LABEL)
 				&& sentPost.getLabel().getName().equals(NEW_LABEL_NAME)
-				&& sentPost.getLabel().getColor().getId().equals(COLOR_ID));
+				&& sentPost.getLabel().getColor().getId().equals(COLOR_ENUM.getId()));
 	}
 	
 	@Test
 	public void testSendPostExistingLabel() {
+		Label newLabel = new Label(PERSISTING_LABEL_NAME, COLOR_ENUM);
+		Post postNewLabel = postService.sendPost(new Post(POST_CONTENT_TO_NEW_LABEL, user, newLabel));
 		
-		Post postNoLabel = postService.sendPost(user, POST_CONTENT_TO_NEW_LABEL, PERSISTING_LABEL_NAME, COLOR_ID);
-		
-		Post postWithPersistedLabel = postService.sendPost(user, POST_CONTENT_TO_EXISTING_LABEL, PERSISTING_LABEL_NAME, COLOR_ID);
+		Post resultPostWithPersistedLabel = 
+				postService.sendPost(new Post(POST_CONTENT_TO_EXISTING_LABEL, user, postNewLabel.getLabel()));
 
-		assertTrue(postNoLabel != null 
-				&& postWithPersistedLabel != null
-				// comparing both label' ids
-				&& postNoLabel.getLabel().equals(postWithPersistedLabel.getLabel()));
+		assertTrue(postNewLabel != null 
+				&& resultPostWithPersistedLabel != null
+				&& postNewLabel.getLabel().equals(resultPostWithPersistedLabel.getLabel()));
 	}
 	
 	@Test
 	public void testFindPostsNoLabel() {
-		
-		Post post = postService.sendPost(user, POST_CONTENT_TO_BE_LISTED, LISTED_LABEL_NAME, COLOR_ID);
+		Label label = new Label(LISTED_LABEL_NAME, COLOR_ENUM);
+		Post resultPost = postService.sendPost(new Post(POST_CONTENT_TO_BE_LISTED, user, label));
 		
 		List<Post> listedPosts = postService.findPosts(user, null, null, null);
 		
 		assertTrue(listedPosts != null
 				&& !listedPosts.isEmpty()
-				&& listedPosts.contains(post));
+				&& listedPosts.contains(resultPost));
 	}
 	
 	@Test
 	public void testEditPost() {
+		Label label = new Label(EDITED_LABEL_NAME, COLOR_ENUM);
+		Post resultPost = postService.sendPost(new Post(POST_CONTENT_NO_EDITED, user, label));
 		
-		Post post = postService.sendPost(user, POST_CONTENT_NO_EDITED, EDITED_LABEL_NAME, COLOR_ID);
+		resultPost.setContent(POST_CONTENT_EDITED);
 		
-		post.setContent(POST_CONTENT_EDITED);
-		
-		Post editedPost = postService.editPost(post);
+		Post editedPost = postService.editPost(resultPost);
 		
 		assertTrue(editedPost != null 
 				&& editedPost.getContent().equals(POST_CONTENT_EDITED));
@@ -104,9 +106,10 @@ public class PostServiceTest {
 	
 	@Test
 	public void testRemovePost() {	
-		Post post = postService.sendPost(user, POST_CONTENT_TO_REMOVE, REMOVED_LABEL_NAME, COLOR_ID);
+		Label label = new Label(REMOVED_LABEL_NAME, COLOR_ENUM);
+		Post resutlPost = postService.sendPost(new Post(POST_CONTENT_TO_REMOVE, user, label));
 		
-		Integer affectedLines = postService.removePost(post);
+		Integer affectedLines = postService.removePost(resutlPost);
 		
 		// remove post and label if no other post references it
 		assertTrue(affectedLines == 2);
