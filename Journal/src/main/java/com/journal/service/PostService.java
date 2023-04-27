@@ -41,6 +41,7 @@ public class PostService {
 	}
 	
 	public int removePost(Post post) {
+		labelService = new LabelService();
 		Label usedLabel = post.getLabel();
 		Integer affectedLines = postDAO.remove(post);
 		
