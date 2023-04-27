@@ -24,8 +24,7 @@
 			</div>
 		</h:panelGroup>
 		
-		<p:dataScroller 
-						value="#{postDataScrollerBB.lsPosts}"
+		<p:dataScroller value="#{postDataScrollerBB.lsPosts}"
 						var="post" lazy="true" id="postList"
 						chunkSize="20" rowIndexVar="line" buffer="30" startAtBottom="true" >
 
@@ -59,6 +58,23 @@
 
 	</h:form>
 	
+	<p:dialog id="editPostDialog" widgetVar="editPostDialog" modal="true"
+				draggable="true" header="Edit post" closable="true" 
+				resizable="false" width="990">
+		<ui:include src="/components/post-editor.xhtml">
+			<ui:param name="postEditorBB" value="#{postDataScrollerBB.postEditorBB}" />
+			<ui:param name="editorMode" value="edit-mode" />
+			<ui:param name="editorDialog" value="editPostDialog" />
+		</ui:include>
+	</p:dialog>
+
+	
+	<p:confirmDialog styleClass="datascoller__confirm-dialog"  global="true" 
+						showEffect="fade" hideEffect="fade" responsive="true" width="350">
+		<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+	</p:confirmDialog>
+		
 </composite:implementation>
 	
 </ui:composition>

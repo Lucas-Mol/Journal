@@ -10,6 +10,7 @@
 	<composite:attribute name="postEditorBB" required="true"
 		type="com.journal.controller.PostEditorBB"/>
 	<composite:attribute name="editorMode"/>
+	<composite:attribute name="editorDialog"/>
 </composite:interface>
 
 <composite:implementation>
@@ -40,9 +41,14 @@
 			</p:selectOneMenu> 
 		</h:panelGroup>
 		
-		<h:panelGroup styleClass="post-editor-form__block-four">
+		<h:panelGroup styleClass="post-editor-form__block-four" rendered="#{editorMode.equals('insert-mode')}">
 			<p:commandButton styleClass="btn-send" value="Send"
 				action="#{postEditorBB.sendPost()}"/> 
+		</h:panelGroup>
+		
+		<h:panelGroup styleClass="post-editor-form__block-four" rendered="#{editorMode.equals('edit-mode')}">
+			<p:commandButton styleClass="btn-send" value="Edit"
+				action="#{postEditorBB.editPost()}" oncomplete="PF('#{editorDialog}').hide();"/> 
 		</h:panelGroup>
 	</h:form>
 	

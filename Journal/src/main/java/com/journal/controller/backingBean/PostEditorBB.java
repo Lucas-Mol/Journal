@@ -1,7 +1,6 @@
 package com.journal.controller.backingBean;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +30,8 @@ public class PostEditorBB {
 	
 	private List<ColorEnum> lsColorEnum;
 	
+	private Post selectedPost;
+	
 	public PostEditorBB (User user, PostDataScrollerBB postDataScrollerBB) {
 		this.user = user;
 		this.postDataScrollerBB = postDataScrollerBB;
@@ -44,7 +45,10 @@ public class PostEditorBB {
 		if(!validateFields()) return; 
 		
 		try {
-			Label label = new Label(labelContent, ColorEnum.getColorById(labelColor));
+			Label label = null;
+			if(labelContent != null && labelColor != null)
+				label = new Label(labelContent, ColorEnum.getColorById(labelColor));
+
 			Post post = new Post(postContent, user, label);
 			postService.sendPost(post);
 			
@@ -52,6 +56,32 @@ public class PostEditorBB {
 		} catch (Exception e) {
 			e.printStackTrace();
 			GrowlUtils.addErrorMessage("Send Post Error", "We have a problem to send your post. Please contact the System Administrator.");
+		}
+		
+	}
+	
+	public void editPost() {
+		
+		if(!validateFields()) return; 
+		
+		try {
+			if(selectedPost != null) {
+				Label label = null;
+				if(labelContent != null && labelColor != null)
+					label = new Label(labelContent, ColorEnum.getColorById(labelColor));
+
+				selectedPost.setContent(postContent);
+				selectedPost.setUser(user);
+				selectedPost.setLabel(label);
+				postService.editPost(selectedPost);	
+				
+				postDataScrollerBB.updatePosts();	
+			} else {
+				throw new Exception();
+			}	
+		} catch (Exception e) {
+			e.printStackTrace();
+			GrowlUtils.addErrorMessage("Edit Post Error", "We have a problem to edit your post. Please contact the System Administrator.");
 		}
 		
 	}
@@ -72,6 +102,24 @@ public class PostEditorBB {
 			return false;
 		}
 		return true;
+	}
+	
+	public void updateSelectedPost(Post selectedPost) {
+		if(selectedPost != null) {
+			this.selectedPost = selectedPost;
+			updateFields(selectedPost);
+		}
+	}
+
+	private void updateFields(Post selectedPost) {
+		this.setPostContent(selectedPost.getContent());
+		if(selectedPost.getLabel() != null) {
+			this.setLabelContent(selectedPost.getLabel().getName());
+			this.setLabelColor(selectedPost.getLabel().getColor().getId());
+		} else {
+			this.setLabelContent(null);
+			this.setLabelColor(null);
+		}
 	}
 
 	public String getPostContent() {
@@ -104,6 +152,14 @@ public class PostEditorBB {
 
 	public void setLsColorEnum(List<ColorEnum> lsColorEnum) {
 		this.lsColorEnum = lsColorEnum;
+	}
+
+	public Post getSelectedPost() {
+		return selectedPost;
+	}
+
+	public void setSelectedPost(Post selectedPost) {
+		this.selectedPost = selectedPost;
 	}
 	
 	

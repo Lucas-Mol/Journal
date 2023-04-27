@@ -24,11 +24,14 @@ public class PostDataScrollerBB {
 	private PostService postService = new PostService();
 	
 	private User user;
+	private PostEditorBB postEditorBB;
+	
 	private String labelFilter;
 	private LazyDataModel<Post> lsPosts;
 	
 	public PostDataScrollerBB (User user) {
 		this.user = user;
+		this.postEditorBB = new PostEditorBB(user, this);
 
 		searchPosts(user, null);
 	}
@@ -64,6 +67,10 @@ public class PostDataScrollerBB {
 		PrimeFaces.current().ajax().update("post-datascroller-form:postList");
 	}
 	
+	public void updatePostEditor(Post selectedPost) {
+		postEditorBB.updateSelectedPost(selectedPost);
+	}
+	
 	public void removePost(Post post) {
 		int affectedLines = 0;
 		try {
@@ -91,7 +98,13 @@ public class PostDataScrollerBB {
 	public void setLsPosts(LazyDataModel<Post> lsPosts) {
 		this.lsPosts = lsPosts;
 	}
-	
 
+	public PostEditorBB getPostEditorBB() {
+		return postEditorBB;
+	}
+
+	public void setPostEditorBB(PostEditorBB postEditorBB) {
+		this.postEditorBB = postEditorBB;
+	}
 	
 }
