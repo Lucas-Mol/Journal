@@ -1013,8 +1013,12 @@ body .ui-state-highlight {
 	color: #ABABAB;
 }
 
-.dashboard__confirm-dialog .ui-dialog-footer{
-	padding: 20px 0 !important;
+.datascoller__confirm-dialog .ui-widget-content {
+	padding: 5% 0 !important;
+}
+
+.datascoller__confirm-dialog .ui-dialog-footer{
+	padding: 4% 0 !important;
 }
 
 ::-webkit-scrollbar {
