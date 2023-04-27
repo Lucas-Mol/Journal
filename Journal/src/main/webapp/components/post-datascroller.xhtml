@@ -25,21 +25,38 @@
 		</h:panelGroup>
 		
 		<p:dataScroller 
-							value="#{postDataScrollerBB.lsPosts}"
-							var="post" lazy="true" id="postList"
-							chunkSize="6" rowIndexVar="line" buffer="30">
+						value="#{postDataScrollerBB.lsPosts}"
+						var="post" lazy="true" id="postList"
+						chunkSize="20" rowIndexVar="line" buffer="30" startAtBottom="true" >
 
-			<h:panelGroup styleClass="post-datascroller__post-card">
-				<ui:include src="/components/post-card.xhtml">
-					<ui:param name="postDataScrollerBB" value="#{postDataScrollerBB}" />
-					<ui:param name="post" value="#{post}" />
-				</ui:include>
-			</h:panelGroup>
 
+			<div class="post-card__main-div">
+				<div class="post-card__grid">
+					<div class="post-card__content-section">
+						<h:panelGroup class="post-card__label-div"
+									  style="background-color: #{post.label.color.color};"
+									  rendered="#{post.label != null}">
+							<h:outputText value="#{post.label.name}" />
+						</h:panelGroup>
+
+						<div class="post-card__content-div">
+							<h:outputText escape="false" value="#{post.content}" />
+						</div>
+					</div>
+					<div class="post-card__button-section">
+						<p:commandButton styleClass="post-card__edit-button" icon=" pi pi-pencil" value="">
+							<p:ajax update="editPostDialog" event="click" 
+									listener="#{postDataScrollerBB.updatePostEditor(post)}" oncomplete="PF('editPostDialog').show()"/>
+						</p:commandButton>
+						<p:commandButton styleClass="post-card__delete-button" icon=" pi pi-trash" value="" action="#{postDataScrollerBB.removePost(post)}">
+							<p:confirm header="Confirmation" message="Are you sure that you want to delete this post?" icon="pi pi-info-circle"/>
+						</p:commandButton>
+					</div>
+				</div>
+			</div>
 
 		</p:dataScroller>
-		
-		
+
 	</h:form>
 	
 </composite:implementation>
