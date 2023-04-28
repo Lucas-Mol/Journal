@@ -46,7 +46,7 @@ public class LoginMB {
 		}
 
 		if (user != null) {
-			session.setSessionUser(user);
+			session.logInSessionUser(user);
 			redirectToDashboard();
 		}
 	}

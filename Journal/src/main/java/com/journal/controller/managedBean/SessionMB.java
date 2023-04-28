@@ -66,6 +66,10 @@ public class SessionMB {
 		
 		return SessionMB.hexColor;
 	}
+	
+	public void logInSessionUser(User user) {
+		setSessionUser(user);
+	}
     
    public User getSessionUser(){
         return (User) getAttribute("sessionUser");
