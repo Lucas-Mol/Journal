@@ -24,19 +24,19 @@ public class PostDAO extends ObjectDAO<Post>{
 	}
 	
 	public List<Post> findByUser(User user) {
-	    return findByUserLabel(user, null, null, null);
+	    return findByUserLabels(user, null, null, null);
 	}
 	
-	public List<Post> findByUserLabel(User user, Label label) {
-	    return findByUserLabel(user, label, null, null);
+	public List<Post> findByUserLabels(User user, List<Label> labels) {
+	    return findByUserLabels(user, labels, null, null);
 	}
 	
-	public List<Post> findByUserLabel(User user, Label label, Integer first, Integer pageSize) {
+	public List<Post> findByUserLabels(User user, List<Label> labels, Integer first, Integer pageSize) {
 		initializeDefaultManagers();
 		
 		try {
-			Predicate restrictions = (label != null) 
-									 ? builder.and(filterByUser(user), filterByLabel(label)) 
+			Predicate restrictions = (labels != null && !labels.isEmpty()) 
+									 ? builder.and(filterByUser(user), filterByListLabel(labels)) 
 									 : filterByUser(user);
 			
 			query.where(restrictions).distinct(true);
@@ -53,12 +53,12 @@ public class PostDAO extends ObjectDAO<Post>{
 		}
 	}
 	
-	public Long countPosts(User user, Label label) {
+	public Long countPosts(User user, List<Label> labels) {
 		initializeCounterManagers();
 
 		try {
-			Predicate restrictions = (label != null) 
-					? builder.and(filterByUser(user), filterByLabel(label))
+			Predicate restrictions = (labels != null && !labels.isEmpty()) 
+					? builder.and(filterByUser(user), filterByListLabel(labels))
 					: filterByUser(user);
 
 			counter.where(restrictions).distinct(true);
@@ -188,7 +188,11 @@ public class PostDAO extends ObjectDAO<Post>{
 	}
 	
 	private Predicate filterByLabel(Label label) {
-		return builder.equal(root.get(Post_.LABEL), label.getId());
+		return builder.equal(root.get(Post_.LABEL), label);
+	}
+	
+	private Predicate filterByListLabel(List<Label> labels) {
+		return root.get(Post_.LABEL).in(labels);
 	}
 	
 	private Predicate filterByLabelName(String labelName) {

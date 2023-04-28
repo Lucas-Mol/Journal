@@ -20,8 +20,8 @@ public class PostService {
 		return postDAO.insert(post);		
 	}
 	
-	public List<Post> findPosts(User user, Label label, Integer first, Integer pageSize) {
-		return postDAO.findByUserLabel(user, label, first, pageSize);
+	public List<Post> findPosts(User user, List<Label> labels, Integer first, Integer pageSize) {
+		return postDAO.findByUserLabels(user, labels, first, pageSize);
 	}
 	
 	public List<Post> findByUserLabelName(User user, String labelName) {
@@ -32,8 +32,8 @@ public class PostService {
 		return postDAO.findByLabel(label);
 	}
 	
-	public Long countPosts(User user, Label label) {
-		return postDAO.countPosts(user, label);
+	public Long countPosts(User user, List<Label> labels) {
+		return postDAO.countPosts(user, labels);
 	}
 	
 	public Post editPost(Post post) {

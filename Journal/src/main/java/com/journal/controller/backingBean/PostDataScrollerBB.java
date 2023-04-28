@@ -14,6 +14,7 @@ import org.primefaces.model.SortMeta;
 import com.journal.model.Label;
 import com.journal.model.Post;
 import com.journal.model.User;
+import com.journal.service.LabelService;
 import com.journal.service.PostService;
 import com.journal.util.GrowlUtils;
 
@@ -22,6 +23,7 @@ import com.journal.util.GrowlUtils;
 public class PostDataScrollerBB {
 	
 	private PostService postService = new PostService();
+	private LabelService labelService = new LabelService();
 	
 	private User user;
 	private PostEditorBB postEditorBB;
@@ -36,7 +38,7 @@ public class PostDataScrollerBB {
 		searchPosts(user, null);
 	}
 	
-	private void searchPosts(User user, Label label) {
+	private void searchPosts(User user, List<Label> labels) {
 		
 		lsPosts = new LazyDataModel<Post>() {
 			private static final long serialVersionUID = 1L;
@@ -45,9 +47,9 @@ public class PostDataScrollerBB {
 			public List<Post> load(int first, int pageSize, Map<String, SortMeta> sortBy,
 					Map<String, FilterMeta> filterBy) {
 				
-				List<Post> result = postService.findPosts(user, label, first, pageSize);
+				List<Post> result = postService.findPosts(user, labels, first, pageSize);
 					
-				this.setRowCount(postService.countPosts(user, label).intValue());
+				this.setRowCount(postService.countPosts(user, labels).intValue());
 
 				return result;
 			}
@@ -55,15 +57,16 @@ public class PostDataScrollerBB {
 			@Override
 			public int count(Map<String, FilterMeta> filterBy) {
 				// TODO Auto-generated method stub
-				return postService.countPosts(user, label).intValue();
+				return postService.countPosts(user, labels).intValue();
 			}
 		};
 	}
 	
 	//TODO: use Label class
 	public void updatePosts() {
-		System.out.println("dando update");
-		searchPosts(user, null);
+		List<Label> labels = fillLabelListByName(labelFilter);
+
+		searchPosts(user, labels);
 		PrimeFaces.current().ajax().update("post-datascroller-form:postList");
 	}
 	
@@ -81,6 +84,12 @@ public class PostDataScrollerBB {
 		}
 		
 		if(affectedLines > 0) updatePosts();
+	}
+	
+	private List<Label> fillLabelListByName(String labelName) {
+		return (labelName != null) ?
+				labelService.findByLabelName(labelFilter)
+				: null;
 	}
 
 	public String getLabelFilter() {

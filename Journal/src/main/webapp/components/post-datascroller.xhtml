@@ -20,7 +20,10 @@
 				<p:inputText placeholder="Label" value="#{postDataScrollerBB.labelFilter}" />
 			</div>
 			<div class="post-datascroller__refresh-div">
-				<p:commandButton styleClass="post-datascroller__refresh-button" icon=" pi pi-refresh" value=""/>
+				<p:commandButton styleClass="post-datascroller__refresh-button" 
+									icon=" pi pi-refresh" value="" 
+									update="post-datascroller-form"
+									action="#{postDataScrollerBB.updatePosts()}"/>
 			</div>
 		</h:panelGroup>
 		

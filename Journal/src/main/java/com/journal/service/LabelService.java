@@ -34,5 +34,9 @@ public class LabelService {
 		Label persistedLabel = labelDAO.findByNameColor(label.getName(), label.getColor());
 		return persistedLabel;
 	}
+	
+	public List<Label> findByLabelName(String labelName) {
+		return labelDAO.findByName(labelName);
+	}
 
 }
