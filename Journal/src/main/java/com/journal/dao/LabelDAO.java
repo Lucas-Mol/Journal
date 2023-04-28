@@ -1,5 +1,7 @@
 package com.journal.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -17,10 +19,10 @@ public class LabelDAO extends ObjectDAO<Label>{
 	}
 	
 
-	public Label findByNameColor(Label label) {
+	public Label findByNameColor(String name, ColorEnum color) {
 		initializeDefaultManagers();
 		try {
-			Predicate restrictions = builder.and(filterByName(label.getName()), filterByColor(label.getColor()));
+			Predicate restrictions = builder.and(filterByName(name), filterByColor(color));
 			
 			query.where(restrictions);
 			TypedQuery<Label> tq = manager.createQuery(query);
@@ -29,6 +31,20 @@ public class LabelDAO extends ObjectDAO<Label>{
 			return result;
 		} catch (IndexOutOfBoundsException ex) {
 			return null;
+		} finally {
+			tearDownManagers();
+		}
+	}
+	
+	public List<Label> findByName(String name) {
+		initializeDefaultManagers();
+		try {
+			Predicate restrictions = builder.and(filterByName(name));
+			
+			query.where(restrictions);
+			TypedQuery<Label> tq = manager.createQuery(query);
+			
+			return tq.getResultList();
 		} finally {
 			tearDownManagers();
 		}

@@ -31,7 +31,7 @@ public class LabelService {
 	
 	
 	public Label verifyLabelAlreadyExist(Label label) {
-		Label persistedLabel = labelDAO.findByNameColor(label);
+		Label persistedLabel = labelDAO.findByNameColor(label.getName(), label.getColor());
 		return persistedLabel;
 	}
 
