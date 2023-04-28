@@ -1,34 +1,30 @@
 package com.journal.service;
 
 import com.journal.dao.UserDAO;
+import com.journal.exception.AuthenticatorException;
 import com.journal.exception.LogInException;
 import com.journal.model.User;
-import com.journal.util.PasswordUtils;
 
 public class LoginService {
 
 	private UserDAO userDAO = new UserDAO();
+	private UserAuthenticatorService userAuthService = new UserAuthenticatorService();
 
 	public User login(String username, String password, User sessionUser) throws LogInException {
 
 		User user = userDAO.findByUsernameOrEmail(username);
 
 		try {
-			if (user != null && validateUserWithFields(user, username, password)) {
-
-				if (sessionUser != null) {
-
-					if (validateSessionUserWithLoggingUser(sessionUser, user)) {
-						return user;
-					}
-
-					throw new LogInException("Error",
-							"Already session was found! You've been log out, please try to log in again.");
-				}
+			userAuthService.authenticate(user, username, password);
+				
+			if (sessionUser == null || validateSessionUserWithLoggingUser(sessionUser, user)) {
 				return user;
-			} else {
-				throw new LogInException("Incorrect", "Incorrect username or password!");
 			}
+
+			throw new LogInException("Error",
+					"Already session was found! You've been log out, please try to log in again.");
+		} catch (AuthenticatorException ae) {
+			throw new LogInException(ae.growlTitle, ae.growlMessage);
 		} catch (LogInException le) {
 			throw new LogInException(le.growlTitle, le.growlMessage);
 		}catch (Exception e) {
@@ -37,14 +33,9 @@ public class LoginService {
 		}
 	}
 
-	private boolean validateUserWithFields(User user, String login, String password) {
-		return (user.getUsername().equals(login) || user.getEmail().equals(login))
-				&& user.getPassword().equals(PasswordUtils.encryptPassword(password));
-	}
-
 	private boolean validateSessionUserWithLoggingUser(User sessionUser, User loggingUser) {
-		return sessionUser.getEmail().equals(loggingUser.getEmail())
-				&& sessionUser.getUsername().equals(loggingUser.getUsername());
+			return sessionUser.getEmail().equals(loggingUser.getEmail())
+					&& sessionUser.getUsername().equals(loggingUser.getUsername());			
 	}
 
 }
