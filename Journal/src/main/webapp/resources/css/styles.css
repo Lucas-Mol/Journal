@@ -4,6 +4,27 @@
 	url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
 	;
 
+:root {
+	--main-background: #171D29;
+	--red: #df2231;
+	--green: #839F18;
+	--blue: #1E9AFF;
+	--yellow: #FFD700;
+	--pink: #ff006f;
+	--purple: #873cbb;
+	--orange: #F97613;
+	--brown: #654321;
+	--gold: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+	radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+	--white: #FAFAFA;
+
+	--default-text-color: #dce4e9;
+	--text-color-70: #dce4e970;
+	--text-color-30: #dce4e930;
+	--colored-block-text-color: #101010;
+	
+}
+
 .no-session-background {
 	background-image: url('/resources/images/main-background.svg');
 	background-size: 2560px;
@@ -18,7 +39,7 @@
 	bottom: 0;
 	right: 0;
 	left: calc(1440px + ( 100% - 1440px)/2);
-	background-color: #171D29;
+	background-color: var(--main-background);
 }
 
 .no-session-background .signup-fill-background {
@@ -27,11 +48,11 @@
 	bottom: 0;
 	left: 0;
 	right: calc(1440px + ( 100% - 1440px)/2);
-	background-color: #171D29;
+	background-color: var(--main-background);
 }
 
 .app-main-background {
-	background-color: #171D29;
+	background-color: var(--main-background);
 	padding: 0;
 	margin: 0;
 }
@@ -42,7 +63,7 @@
 	min-height: 100vh;
 	border-width: 0px 0.1px;
 	border-style: solid;
-	border-color: #353535;
+	border-color: var(--text-color-30);
 }
 
 .app-wrapper-background-error {
@@ -105,7 +126,7 @@
 	font-weight: 400;
 	font-size: 20px;
 	text-align: center;
-	color: #818181;
+	color: var(--default-text-color);
 	margin-bottom: 20px;
 }
 
@@ -114,7 +135,7 @@
 	flex-direction: column;
 	height: 60px;
 	width: 300px;
-	border: 2px solid #818181;
+	border: 2px solid var(--default-text-color);
 	border-radius: 50px;
 	background-color: #00000070;
 	font-family: 'Nunito';
@@ -122,7 +143,7 @@
 	font-weight: 400;
 	font-size: 20px;
 	text-align: center;
-	color: #818181;
+	color: var(--default-text-color);
 }
 
 .form-login .field-div {
@@ -139,7 +160,7 @@
 	margin-left: auto;
 	background: none;
 	border: none;
-	color: #1E9AFF;
+	color: var(--blue);
 	cursor: pointer;
 }
 
@@ -158,7 +179,7 @@
 	height: 60px;
 	width: 110px;
 	border-radius: 50px;
-	background-color: #1E9AFF;
+	background-color: var(--blue);
 	color: #E2E2E2;
 	font-family: 'Nunito';
 	font-style: normal;
@@ -189,7 +210,7 @@
 	padding: auto;
 	background: none;
 	border: none;
-	color: #FFFFFF;
+	color: var(--blue);
 	cursor: pointer;
 }
 
@@ -223,27 +244,27 @@
 }
 
 .block-two {
-	background-color: #FFE600;
+	background-color: var(--yellow);
 	grid-row: 2;
 	grid-column: 1;
 	margin-left: 20%;
-	color: #343030;
+	color: var(--colored-block-text-color);
 }
 
 .block-three {
-	background-color: #444725;
+	background-color: var(--purple);
 	grid-row: 2;
 	grid-column: 2;
 	margin: 0px 10%;
-	color: #bbbbbb;
+	color: var(--colored-block-text-color);
 }
 
 .block-four {
-	background-color: #A50F69;
+	background-color: var(--pink);
 	grid-row: 2;
 	grid-column: 3;
 	margin-right: 20%;
-	color: #dfdddd;
+	color: var(--colored-block-text-color);
 }
 
 .block-five {
@@ -285,41 +306,11 @@
 	animation: div-dance 0.3s;
 }
 
-@
-keyframes div-dance { 0% {
-	transform: translateX(0);
-}
-
-25%
-{
-transform
-:
- 
-translateX
-(-2px);
-
-	
-}
-50%
-{
-transform
-:
- 
-translateX
-(0);
-
-	
-}
-75%
-{
-transform
-:
- 
-translateX
-(-2px);
-
-	
-}
+@keyframes div-dance { 
+	0% { transform: translateX(0);}
+	25% { transform: translateX(-2px);}
+	50% { transform: translateX (0);}
+	75% { transform: translateX(-2px);}
 }
 .welcome-page-grid div:nth-child(n+2):nth-child(-n+4) img {
 	display: flex;
@@ -338,7 +329,7 @@ translateX
 	margin: 30px auto;
 	height: 70px;
 	width: 150px;
-	background: #1E9AFF;
+	background: var(--blue);
 	border-radius: 50px;
 	font-family: 'Nunito';
 	font-style: normal;
@@ -350,42 +341,25 @@ translateX
 	animation: btn-jump 1s infinite;
 }
 
-@
-keyframes btn-jump { 0% {
-	transform: translateY(0);
+.button-jump:hover {
+	animation: btn-jump 1s infinite;
 }
 
-25%
-{
-transform
-:
- 
-translateY
-(-2px);
+@keyframes btn-jump { 
+	0% {
+		transform: translateY(0);
+	}
+	25% {
+		transform: translateY(-2px);
+	}
+	50% {
+		transform: translateY(0);
+	}
+	75% {
+		transform: translateY(-2px);
+	}
+}
 
-	
-}
-50%
-{
-transform
-:
- 
-translateY
-(0);
-
-	
-}
-75%
-{
-transform
-:
- 
-translateY
-(-2px);
-
-	
-}
-}
 .ui-growl-item-container {
 	background-color: #2C3B4E;
 }
@@ -450,7 +424,7 @@ translateY
 	font-size: 20px;
 	letter-spacing: 3.5px;
 	margin-right: 5px;
-	color: #ABABAB;
+	color: var(--default-text-color);
 }
 
 .header-user-link {
@@ -468,7 +442,7 @@ translateY
 	display: flex;
 	flex-wrap: wrap;
 	align-content: center;
-	background-color: #ABABAB;
+	background-color: var(--default-text-color);
 }
 
 .header-user-circle-text {
@@ -524,7 +498,7 @@ translateY
 	font-weight: 400;
 	font-size: 20px;
 	letter-spacing: 3.5px;
-	color: #ABABAB;
+	color: var(--default-text-color);
 }
 
 .error-section {
@@ -597,7 +571,7 @@ body .ui-dialog .ui-dialog-titlebar, body .ui-dialog .ui-dialog-content,
 	font-weight: 400;
 	font-size: 20px;
 	text-align: center;
-	color: #818181;
+	color: var(--default-text-color);
 }
 
 body .ui-dialog .ui-dialog-titlebar {
@@ -618,7 +592,7 @@ body .ui-dialog .ui-dialog-titlebar {
 	margin: 25px auto 0 auto;
 	height: 60px;
 	width: 300px;
-	border: 2px solid #818181;
+	border: 2px solid var(--default-text-color);
 	border-radius: 50px;
 	background-color: #00000070;
 	font-family: 'Nunito';
@@ -626,7 +600,7 @@ body .ui-dialog .ui-dialog-titlebar {
 	font-weight: 400;
 	font-size: 20px;
 	text-align: center;
-	color: #818181;
+	color: var(--default-text-color);
 }
 
 .modal-section .btn-login-signup {
@@ -678,7 +652,7 @@ body .ui-dialog .ui-dialog-titlebar {
 	font-family: 'Nunito';
 	font-style: normal;
 	font-weight: 400;
-	color: #ABABAB;
+	color: var(--default-text-color);
 }
 
 .profile__username {
@@ -686,7 +660,7 @@ body .ui-dialog .ui-dialog-titlebar {
 	margin: auto;
 	font-size: 40px;
 	line-height: 55px;
-	color: #ABABAB;
+	color: var(--default-text-color);
 }
 
 .profile__email {
@@ -793,7 +767,7 @@ body .ui-dialog .ui-dialog-titlebar {
 	width: 200px;
 	margin-top: 2px;
 	background: #332835 !important;
-	border: 0.5px solid #81818170 !important;
+	border: 0.5px solid var(--text-color-70) !important;
 	border-radius: 10px !important;
 	font-family: 'Nunito';
 	font-style: normal;
@@ -808,7 +782,7 @@ body .ui-dialog .ui-dialog-titlebar {
 	width: 200px;
 	margin-top: -18px;
 	background: #332835 !important;
-	border: 0.5px solid #81818170 !important;
+	border: 0.5px solid var(--text-color-70) !important;
 	border-radius: 10px !important;
 	font-family: 'Nunito';
 	font-style: normal;
@@ -821,7 +795,7 @@ body .ui-dialog .ui-dialog-titlebar {
 .ui-helper-reset, .ui-selectonemenu-label, .ui-inputfield ui-corner-all
 	{
 	background: #332835 !important;
-	border: 0.5px solid #81818170 !important;
+	border: 0.5px solid var(--text-color-70) !important;
 	border-radius: 10px !important;
 }
 
@@ -862,14 +836,14 @@ body .ui-state-highlight {
 }
 
 .post-editor .ui-editor-toolbar {
-	border: 0.5px solid #81818170 !important;
-	border-bottom: 0.5px solid #81818130 !important;
+	border: 0.5px solid var(--text-color-70) !important;
+	border-bottom: 0.5px solid var(--text-color-30) !important;
 	border-top-right-radius: 10px !important;
 	border-top-left-radius: 10px !important;
 }
 
 .post-editor .ql-container {
-	border: 0.5px solid #81818170 !important;
+	border: 0.5px solid var(--text-color-70) !important;
 	border-top: none !important;
 	border-bottom-right-radius: 10px !important;
 	border-bottom-left-radius: 10px !important;
@@ -897,7 +871,7 @@ body .ui-state-highlight {
 	flex-wrap: wrap;
 	justify-content: space-between;
 	padding: 10px 0 20px 0;
-	border-bottom: 0.5px solid #81818170 !important;
+	border-bottom: 0.5px solid var(--text-color-30) !important;
 }
 
 .post-datascroller__filter-div {
@@ -910,7 +884,7 @@ body .ui-state-highlight {
 	font-weight: 600;
 	font-size: 17px;
 	margin-right: 7px;
-	color: #ABABAB;
+	color: var(--default-text-color);
 }
 
 .post-datascroller__filter-div input {
@@ -918,7 +892,7 @@ body .ui-state-highlight {
 	width: 200px;
 	margin-top: 2px;
 	background: #332835 !important;
-	border: 0.5px solid #81818170 !important;
+	border: 0.5px solid var(--text-color-70) !important;
 	border-radius: 10px !important;
 	font-family: 'Nunito';
 	font-style: normal;
@@ -948,7 +922,7 @@ body .ui-state-highlight {
 /* PostCard */
 .post-card__main-div {
 	padding: 10px 40px 40px 40px;
-	border-bottom: 0.5px solid #81818170 !important;
+	border-bottom: 0.5px solid var(--text-color-30) !important;
 }
 
 .post-card__main-div:hover .post-card__button-section {
@@ -1002,7 +976,7 @@ body .ui-state-highlight {
 	font-style: normal;
 	font-weight: 700;
 	font-size: 13px;
-	color: black;
+	color: var(--colored-block-text-color);
 }
 
 .post-card__content-div {
@@ -1010,7 +984,7 @@ body .ui-state-highlight {
 	font-style: normal;
 	font-weight: 400;
 	font-size: 15px;
-	color: #ABABAB;
+	color: var(--default-text-color);
 }
 
 .datascoller__confirm-dialog .ui-widget-content {
