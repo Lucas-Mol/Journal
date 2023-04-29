@@ -35,7 +35,7 @@ public class LoginService {
 
 	private boolean validateSessionUserWithLoggingUser(User sessionUser, User loggingUser) {
 			return sessionUser.getEmail().equals(loggingUser.getEmail())
-					&& sessionUser.getUsername().equals(loggingUser.getUsername());			
+					&& sessionUser.getUsername().toLowerCase().equals(loggingUser.getUsername().toLowerCase());
 	}
 
 }

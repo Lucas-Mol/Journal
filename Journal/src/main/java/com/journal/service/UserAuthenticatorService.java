@@ -16,7 +16,7 @@ public class UserAuthenticatorService {
 	}
 
 	private boolean validateUserWithFields(User user, String login, String password) throws AuthenticatorException {
-		if((user.getUsername().equals(login) || user.getEmail().equals(login))
+		if((user.getUsername().toLowerCase().equals(login.toLowerCase()) || user.getEmail().equals(login))
 				&& user.getPassword().equals(PasswordUtils.encryptPassword(password))){
 			return true;
 		} else {
