@@ -18,3 +18,29 @@ On the dev/technical side, one of the first ideas of the project was build a Jav
 
 ## How to run the project?
 
+Journal technologies necessary to be installed:
+- Java JDK 17
+- Maven
+- MySQL Datbase
+
+Just do the following steps:
+1. For Infrastructure (set up local database and server) follow the <a href="journal_infra/INFRA_README.md">Infra Readme</a>.
+2. On project persistence.xml file [<a href="Journal/src/main/resources/META-INF/persistence.xml">/src/main/resources/META-INF/persistence.xml</a>] insert your MySQL username and password.
+3. Still on project, configure your config.properties [<a href="Journal/src/main/resources/config.properties">/src/main/resources/config.properties</a>].
+4. Run command: ``mvn clean install`` on ``/Journal``
+5. Copy 'journal.war' generated in ``/target`` and paste it on your Java Server/Container deployment folder. (Recommended Jboss Wildfly: ${JBOSS_HOME}/standalone/deployments/)
+6. Start your Java Server/Container (Recommended Jboss Wildfly: on ${JBOSS_HOME}/bin/ run:
+    - [Windows] ``./standalone.bat``
+    - [Linux/Mac] ``./standalone.sh``
+
+**Obs:** Steps 3, 4 and 6 can be favored by your domain IDE
+
+## Tech Stack
+- Java 17
+- JSF and Primefaces
+- Hibernate with Criteria
+- Java Mail
+- Maven
+- JUnit 5
+- MySQL Database
+- JBoss Wildfly 17.0
