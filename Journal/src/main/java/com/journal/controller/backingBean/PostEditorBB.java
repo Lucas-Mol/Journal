@@ -31,7 +31,8 @@ public class PostEditorBB {
 	private List<ColorEnum> lsColorEnum;
 	
 	private Post selectedPost;
-	
+
+	public PostEditorBB() {}
 	public PostEditorBB (User user, PostDataScrollerBB postDataScrollerBB) {
 		this.user = user;
 		this.postDataScrollerBB = postDataScrollerBB;

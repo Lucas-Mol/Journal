@@ -30,6 +30,8 @@ public class PostDataScrollerBB {
 	
 	private String labelFilter;
 	private LazyDataModel<Post> lsPosts;
+
+	public PostDataScrollerBB() {}
 	
 	public PostDataScrollerBB (User user) {
 		this.user = user;

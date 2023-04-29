@@ -24,6 +24,8 @@ public class FormForgotPasswordBB {
 	private ForgotPasswordService forgotPasswordService = new ForgotPasswordService();
 	
 	private final int MAX_ATTEMPTS = 3;
+
+	public FormForgotPasswordBB() {}
 	
 	public FormForgotPasswordBB (String login, SessionMB session) {
 		this.login = login;
