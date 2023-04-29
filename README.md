@@ -21,7 +21,7 @@ On the dev/technical side, one of the first ideas of the project was build a Jav
 Journal necessary technologies to be installed:
 - Java JDK 17
 - Maven
-- MySQL Datbase
+- MySQL Database
 
 Just do the following steps:
 1. For Infrastructure (set up local database and server) follow the <a href="journal_infra/INFRA_README.md">Infra Readme</a>.
