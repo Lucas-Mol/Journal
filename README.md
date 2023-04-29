@@ -18,7 +18,7 @@ On the dev/technical side, one of the first ideas of the project was build a Jav
 
 ## How to run the project?
 
-Journal technologies necessary to be installed:
+Journal necessary technologies to be installed:
 - Java JDK 17
 - Maven
 - MySQL Datbase
