@@ -41,12 +41,12 @@
 			</p:selectOneMenu> 
 		</h:panelGroup>
 		
-		<h:panelGroup styleClass="post-editor-form__block-four" rendered="#{editorMode.equals('insert-mode')}">
+		<h:panelGroup styleClass="post-editor-form__block-four button-jump" rendered="#{editorMode.equals('insert-mode')}">
 			<p:commandButton styleClass="btn-send" value="Send"
 				action="#{postEditorBB.sendPost()}"/> 
 		</h:panelGroup>
 		
-		<h:panelGroup styleClass="post-editor-form__block-four" rendered="#{editorMode.equals('edit-mode')}">
+		<h:panelGroup styleClass="post-editor-form__block-four button-jump" rendered="#{editorMode.equals('edit-mode')}">
 			<p:commandButton styleClass="btn-send" value="Edit"
 				action="#{postEditorBB.editPost()}" oncomplete="PF('#{editorDialog}').hide();"/> 
 		</h:panelGroup>
