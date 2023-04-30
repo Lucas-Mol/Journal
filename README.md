@@ -33,7 +33,7 @@ Just do the following steps:
     - [Windows] ``./standalone.bat``
     - [Linux/Mac] ``./standalone.sh``
 
-**Obs:** Steps 3, 4 and 6 can be favored by your domain IDE
+**Obs:** Steps 4, 5 and 6 can be favored by your domain IDE
 
 ## Tech Stack
 - Java 17
