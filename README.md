@@ -14,7 +14,7 @@ At the dev/technical side, one of the first idea of the project was build a Java
 
 ![Filtering](https://cdn.discordapp.com/attachments/778788148921761822/1101943588562153522/journal_dashboard_search.jpg)
 
-[![Video]()]()
+[![Video](https://cdn.discordapp.com/attachments/778788148921761822/1104147354866700369/journal-video-preview.jpg)](https://www.youtube.com/watch?v=RywJrNleFzA&list=PLTmnpY-mAW8gtLHPAoK7Kg9807A_7Vu6N&index=1&t=4s)
 
 ## How to run the project?
 
