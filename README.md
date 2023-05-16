@@ -35,12 +35,16 @@ Just do the following steps:
 
 **Obs:** Steps 4, 5 and 6 can be favored by your domain IDE
 
-## Tech Stack
+## Tech Stack (and Design Patterns)
 - Java 17
 - JSF and Primefaces
 - Hibernate with Criteria
 - Java Mail
 - Maven
+- MVC (with Service Layer)
+- DAO 
+- TDD
 - JUnit 5
 - MySQL Database
 - JBoss Wildfly 17.0
+- Security (Authentication, Authorization and Access Control)
